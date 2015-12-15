@@ -1,0 +1,13 @@
+<tr><td><div class="character_info"><div class="character_img"><img src="http://www.cadal.zju.edu.cn/CalliSources/images/characterimage/06100007/00000053(102,613,164,662).jpg"></img></div><div class="character_detail"><div class="character_author"><p>标注：<a class="Meaning" href="javascript:void(0);">又</a></p><p>书法家：王羲之</p><p>出处：兰亭序</p></div><div  class="character_read"><a class="showPage" href="javascript:void(0);"><p id="06100007+00000053+00000053(102,613,164,662).jpg">阅读所在页面</p></a></div><div><a href="/brushModule/brushApplet.jsp?filepath=00000053(102,613,164,662).jpg"  class='visual'></a></div></div></div>
+
+<a class="Meaning" href="javascript:void(0);">又</a>         *****Translation*****
+<p>书法家：王羲之</p>                                          *****Calligrapher:(name of calligrapher, or empty)
+<p>出处：兰亭序</p>                                            ******Source:(name of book, or empty)*****
+<p id="06100007+00000053+00000053(102,613,164,662).jpg">    *****BookID+PageID+PageID(tlpointx, tlpointy, brpointx,brpointy).jpg*****
+
+trpointx = topLeft point X
+trpointy = topLeft point Y
+blpointx = bottomRight point X
+blpointy = bottomRight point Y
+
+

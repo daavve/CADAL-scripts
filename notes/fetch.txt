@@ -1,0 +1,20 @@
+characterimage:  wget http://www.cadal.zju.edu.cn/CalliSources/images/characterimage.zip
+books:           wget -r --no-parent  http://www.cadal.zju.edu.cn/CalliSources/images/books/
+
+curl:            bash script
+
+    #! /bin/bash
+
+    # fetches character data from CADAL website
+
+
+    eclare -i count
+
+    let count=1
+
+    webAddr="www.cadal.zju.edu.cn/NewCalligraphy/characters.jsp?page_id="
+
+    while [  $count -le 5499  ]; do
+        curl ${webAddr}${count} -o ${count}.html
+        let count=count+1
+    done
