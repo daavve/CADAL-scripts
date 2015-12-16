@@ -14,6 +14,20 @@ CHARDIR = "CalliSources/characterimage/"
 OUTDIR = "/home/dave/workspace/pycharm/CADAL-work/works/"
 
 
+class Character(object):
+    mark = ""
+    author = ""
+    work = ""
+    work_id = ""
+    page_id = ""
+    file_name = ""
+    image = ""
+
+
+
+
+
+
 def grabcharsfromfile(htmlfile):
     charfile = open(htmlfile)
     char_bs = bS(charfile, "lxml")
@@ -24,31 +38,27 @@ def grabcharsfromfile(htmlfile):
     curspot = 0
     characters = []
     for x in range(0, numchars):
-        charmark = characterblocks[curspot].contents[1].string
+        char = Character()
+        char.mark = characterblocks[curspot].contents[1].string
         curspot += 1
         charauthorblock = characterblocks[curspot].string
         if len(charauthorblock) > 4:  # we have an author
-            charauthor = charauthorblock[4::]
-        else:
-            charauthor = ""
+            char.author = charauthorblock[4::]
         curspot += 1
         charworkblock = characterblocks[curspot].string
         if len(charworkblock) > 3:
-            workauthor = charworkblock[3::]
-        else:
-            workauthor = ""
+            char.work = charworkblock[3::]
         curspot += 1
         characterblocks[curspot].unwrap()
         filepathname = characterblocks[curspot].attrs['id']
-        foldername = filepathname[:8]
-        pagename = filepathname[19:26]
-        filename = filepathname[18:]
+        char.work_id = filepathname[:8]
+        char.page_id = filepathname[19:26]
+        char.file_name = filepathname[18:]
         curspot += 1
-        charimagefile = open(ROOTDIR + CHARDIR + foldername + "/" + filename, "rb")
-        charimage = charimagefile.read()
-        character = [charmark, charauthor, workauthor, foldername, pagename, filename, charimage]
+        charimagefile = open(ROOTDIR + CHARDIR + char.work_id + "/" + char.file_name, "rb")
+        char.image = charimagefile.read()
         charimagefile.close()
-        characters.append(character)
+        characters.append(char)
     return characters,
 
 # charpage: [ character, author, work, work_id, page_id, fileName, Binary JPEG ]
@@ -57,11 +67,12 @@ def grabcharsfromfile(htmlfile):
 def buildpagefromfile(htmlfile):
     charpage = grabcharsfromfile(htmlfile)
     for char in charpage:
-        for part in char:
-            print(part)
+        print(char)
 
 
-for curfile in range(1, 2):  #5500
+
+
+for curfile in range(1, 2):  # 5500
     filename = ROOTDIR + HTMDIR + str(curfile) + ".html"
     buildpagefromfile(filename)
 
