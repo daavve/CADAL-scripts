@@ -6,6 +6,7 @@
 
 from bs4 import BeautifulSoup as bS
 import io
+from pathlib import Path
 
 ROOTDIR = "../fetch/"
 HTMDIR = "charDataHTML/"
@@ -21,12 +22,7 @@ class Character(object):
     work_id = ""
     page_id = ""
     file_name = ""
-    image = ""
-
-
-
-
-
+    image = bytearray()
 
 def grabcharsfromfile(htmlfile):
     charfile = open(htmlfile)
@@ -61,18 +57,18 @@ def grabcharsfromfile(htmlfile):
         characters.append(char)
     return characters,
 
-# charpage: [ character, author, work, work_id, page_id, fileName, Binary JPEG ]
-
-
 def buildpagefromfile(htmlfile):
-    charpage = grabcharsfromfile(htmlfile)
+    charpage = grabcharsfromfile(htmlfile)[0]
     for char in charpage:
-        print(char)
+        imagedir = ROOTDIR + BOOKSDIR + char.work_id
+        p = Path(imagedir)
+        if not p.is_dir():
+            print(char)
 
 
 
 
-for curfile in range(1, 2):  # 5500
+for curfile in range(1, 5500):  # 5500
     filename = ROOTDIR + HTMDIR + str(curfile) + ".html"
     buildpagefromfile(filename)
 
