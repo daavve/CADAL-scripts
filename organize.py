@@ -7,15 +7,17 @@
 from bs4 import BeautifulSoup as bS
 import io
 from pathlib import Path
+from urllib import request
 
 ROOTDIR = "../fetch/"
 HTMDIR = "charDataHTML/"
 BOOKSDIR = "CalliSources/books/"
 CHARDIR = "CalliSources/characterimage/"
-OUTDIR = "/home/dave/workspace/pycharm/CADAL-work/works/"
+CADALWEBSITE = "http://www.cadal.zju.edu.cn/CalliSources/images/books/"
 
 
 class Character(object):
+    htmlpage = int()
     mark = ""
     author = ""
     work = ""
@@ -24,7 +26,8 @@ class Character(object):
     file_name = ""
     image = bytearray()
 
-def grabcharsfromfile(htmlfile):
+
+def grabcharsfromfile(htmlfile, cur_file):
     charfile = open(htmlfile)
     char_bs = bS(charfile, "lxml")
     charfile.close()
@@ -35,6 +38,7 @@ def grabcharsfromfile(htmlfile):
     characters = []
     for x in range(0, numchars):
         char = Character()
+        char.htmlpage = cur_file
         char.mark = characterblocks[curspot].contents[1].string
         curspot += 1
         charauthorblock = characterblocks[curspot].string
@@ -48,7 +52,7 @@ def grabcharsfromfile(htmlfile):
         characterblocks[curspot].unwrap()
         filepathname = characterblocks[curspot].attrs['id']
         char.work_id = filepathname[:8]
-        char.page_id = filepathname[19:26]
+        char.page_id = filepathname[18:26]
         char.file_name = filepathname[18:]
         curspot += 1
         charimagefile = open(ROOTDIR + CHARDIR + char.work_id + "/" + char.file_name, "rb")
@@ -57,19 +61,44 @@ def grabcharsfromfile(htmlfile):
         characters.append(char)
     return characters,
 
-def buildpagefromfile(htmlfile):
-    charpage = grabcharsfromfile(htmlfile)[0]
+def printcharinfo(char):
+    print("Mark: " + char.mark)
+    print("HTML Source: " + str(char.htmlpage))
+    print("work_id: " + char.work_id)
+    print("page_id: " + char.page_id)
+    print("----------------------------------------------------------------------")
+
+
+def checkfilesanddirs(char):
+    imagedir = ROOTDIR + BOOKSDIR + char.work_id
+    if not Path(imagedir).is_dir():
+        print("Directory does not exist for this work!")
+        printcharinfo(char)
+    else:
+        imagename = imagedir + "/" + char.page_id + ".jpg"
+        imagepath = Path(imagename)
+        if not imagepath.is_file():
+            printcharinfo(char)
+            webaddress = CADALWEBSITE + char.work_id + "/" + char.page_id + ".jpg"
+            print("Downloading: " + webaddress + ".....")
+            url = request.urlopen(webaddress)
+            gotimage = url.read()
+            url.close()
+            imagepath.write_bytes(gotimage)
+
+
+def buildpagefromfile(htmlfile, curfile):
+    charpage = grabcharsfromfile(htmlfile, curfile)[0]
     for char in charpage:
-        imagedir = ROOTDIR + BOOKSDIR + char.work_id
-        p = Path(imagedir)
-        if not p.is_dir():
-            print(char)
+        checkfilesanddirs(char)
+
+
 
 
 
 
 for curfile in range(1, 5500):  # 5500
     filename = ROOTDIR + HTMDIR + str(curfile) + ".html"
-    buildpagefromfile(filename)
+    buildpagefromfile(filename, curfile)
 
 
