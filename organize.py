@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup as bS
 import io
 from pathlib import Path
 from urllib import request
+import sys
 
 ROOTDIR = "../fetch/"
 HTMDIR = "charDataHTML/"
@@ -68,6 +69,12 @@ def printcharinfo(char):
     print("page_id: " + char.page_id)
     print("----------------------------------------------------------------------")
 
+def grabfile(webaddress):
+    url = request.urlopen(webaddress)
+    gotimage = url.read()
+    url.close()
+    return gotimage
+
 
 def checkfilesanddirs(char):
     imagedir = ROOTDIR + BOOKSDIR + char.work_id
@@ -80,12 +87,20 @@ def checkfilesanddirs(char):
         if not imagepath.is_file():
             printcharinfo(char)
             webaddress = CADALWEBSITE + char.work_id + "/" + char.page_id + ".jpg"
-            print("Downloading: " + webaddress + ".....")
-            url = request.urlopen(webaddress)
-            gotimage = url.read()
-            url.close()
-            imagepath.write_bytes(gotimage)
-
+            print("Downloading: " + webaddress + "\n.....")
+            try:
+                gotimage = grabfile(webaddress)
+                imagepath.write_bytes(gotimage)
+            except:
+                print(sys.exc_info()[0])
+                input("try to trigger image generation manually please")
+                try:
+                    gotimage = grabfile(webaddress)
+                    imagepath.write_bytes(gotimage)
+                except:
+                    print(sys.exc_info()[0])
+                    print("Download failed again")
+            print("-----------------------------------------")
 
 def buildpagefromfile(htmlfile, curfile):
     charpage = grabcharsfromfile(htmlfile, curfile)[0]
