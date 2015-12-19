@@ -103,8 +103,7 @@ def checkfilesanddirs(char):
 
 def buildpagefromfile(htmlfile, curfile):
     charpage = grabcharsfromfile(htmlfile, curfile)[0]
-    for char in charpage:
-        checkfilesanddirs(char)
+    print(len(charpage))
 
 
 

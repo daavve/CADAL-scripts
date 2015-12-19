@@ -1,0 +1,10 @@
+I used the following seriese of commands to count all .jpg files existing in this directory tree:
+
+
+$ tree | grep '.jpg' | wc -l
+
+111,949 character images
+5,499   html files
+
+1 - 5,498:  18 chars for files
+5,499.html:
