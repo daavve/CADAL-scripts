@@ -5,7 +5,6 @@
 ##########################################
 
 from bs4 import BeautifulSoup as bS
-import io
 from pathlib import Path
 from urllib import request
 import sys
