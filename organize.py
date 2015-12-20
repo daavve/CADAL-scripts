@@ -7,7 +7,8 @@
 from bs4 import BeautifulSoup as bS
 from pathlib import Path
 from urllib import request
-import sys
+import sys, pickle
+from io import FileIO
 
 ROOTDIR = "../fetch/"
 HTMDIR = "charDataHTML/"
@@ -101,17 +102,23 @@ def checkfilesanddirs(char):
                     print("Download failed again")
             print("-----------------------------------------")
 
+EXPECTED_CHARS_PER_PAGE = 18
+
+def checkcharsinpage(charpage, fileNo):
+    clen = len(charpage)
+    if clen != EXPECTED_CHARS_PER_PAGE:
+     print(str(clen) + " Characters detected in file " + str(fileNo) + ".html")
+
 def buildpagefromfile(htmlfile, curfile):
     charpage = grabcharsfromfile(htmlfile, curfile)[0]
-    print(len(charpage))
+    return charpage
 
-
-
-
-
-
+character_set = []
 for curfile in range(1, 5500):  # 5500
     filename = ROOTDIR + HTMDIR + str(curfile) + ".html"
-    buildpagefromfile(filename, curfile)
+    character_set.append(buildpagefromfile(filename, curfile))
 
+pickle_file = FileIO.
+
+pickle.dump(character_set, FileIO., protocol=pickle.HIGHEST_PROTOCOL, fix_imports=False)
 

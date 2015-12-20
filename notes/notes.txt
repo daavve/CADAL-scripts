@@ -6,5 +6,14 @@ $ tree | grep '.jpg' | wc -l
 111,949 character images
 5,499   html files
 
-1 - 5,498:  18 chars for files
-5,499.html:
+1.html - 5498.html:  18 chars for per file:  98,964 chars in this block
+5,499.html:           6 chars in last file:  6 chars in this block
+
+a total of 98,970 chars in all fetched html files.
+if we assume that each character points to a distinct character jpg, -> Have not checked this assumption
+
+then we have 12,979 unassociated characters:  These characters are likely untranslated, as the Meaning is null for at least some of them
+
+
+
+go to here: http://www.cadal.zju.edu.cn/bns/person/personbase.html?name=(name in chinese) to get the person's biography and portrait
