@@ -9,6 +9,7 @@ from pathlib import Path
 from urllib import request
 import sys, pickle
 from io import FileIO
+from typing import List
 
 ROOTDIR = "../fetch/"
 HTMDIR = "charDataHTML/"
@@ -28,7 +29,7 @@ class Character(object):
     image = bytearray()
 
 
-def grabcharsfromfile(htmlfile, cur_file):
+def grabcharsfromfile(htmlfile: str, cur_file: int) -> List[Character]:
     charfile = open(htmlfile)
     char_bs = bS(charfile, "lxml")
     charfile.close()
@@ -62,21 +63,21 @@ def grabcharsfromfile(htmlfile, cur_file):
         characters.append(char)
     return characters,
 
-def printcharinfo(char):
+def printcharinfo(char: str) -> None:
     print("Mark: " + char.mark)
     print("HTML Source: " + str(char.htmlpage))
     print("work_id: " + char.work_id)
     print("page_id: " + char.page_id)
     print("----------------------------------------------------------------------")
 
-def grabfile(webaddress):
+def grabfile(webaddress: str) -> str:
     url = request.urlopen(webaddress)
     gotimage = url.read()
     url.close()
     return gotimage
 
 
-def checkfilesanddirs(char):
+def checkfilesanddirs(char: Character) -> None:
     imagedir = ROOTDIR + BOOKSDIR + char.work_id
     if not Path(imagedir).is_dir():
         print("Directory does not exist for this work!")
@@ -104,13 +105,13 @@ def checkfilesanddirs(char):
 
 EXPECTED_CHARS_PER_PAGE = 18
 
-def checkcharsinpage(charpage, fileNo):
+def checkcharsinpage(charpage: List[Character], fileno: int) -> None:
     clen = len(charpage)
     if clen != EXPECTED_CHARS_PER_PAGE:
-     print(str(clen) + " Characters detected in file " + str(fileNo) + ".html")
+     print(str(clen) + " Characters detected in file " + str(fileno) + ".html")
 
-def buildpagefromfile(htmlfile, curfile):
-    charpage = grabcharsfromfile(htmlfile, curfile)[0]
+def buildpagefromfile(htmlfile: str, curfile1: int) -> List[Character]:
+    charpage = grabcharsfromfile(htmlfile, curfile1)[0]
     return charpage
 
 character_set = []
