@@ -7,7 +7,6 @@
 from bs4 import BeautifulSoup as bS
 from pathlib import Path
 from urllib import request
-from io import FileIO
 from typing import List
 import sys, json
 
@@ -138,21 +137,32 @@ def dumpjsontofile(charset: List[Character]) -> None:
     dumpfile.close()
 
 
-def readjsonfromfile() -> None:
+def readjsonfromfile() -> List[Character]:
     jsonfile = open("dump.json", "r")
     readfile = json.load(jsonfile)
     jsonfile.close()
-    print(readfile)
+    character_set = []
+    for r in readfile:
+        character_set.append(Character(r['chi_mark'], r['chi_author'], r['chi_work'], r['work_id'], r['page_id'], r['xy_coordinates']))
+    return character_set
 
 
-#  readjsonfromfile()
+def parsecharsfromhtml() -> List[Character]:
+    character_set = []
+    for curfile in range(1, 5500):  # 5500      This part uses about 3.2 GB of RAM :(
+        filename = ROOTDIR + HTMDIR + str(curfile) + ".html"
+        character_set.append(buildpagefromfile(filename, curfile))
+    return character_set
 
 
-character_set = []
-for curfile in range(1, 5500):  # 5500      This part uses about 3.2 GB of RAM :(
-    filename = ROOTDIR + HTMDIR + str(curfile) + ".html"
-    character_set.append(buildpagefromfile(filename, curfile))
+def countworkid(charset: List[Character]) -> None:
+    workset = []
+    for char in charset:
+        if char.work_id not in workset:
+            workset.append(char.work_id)
+    workset.sort()
+    print(workset)
 
-dumpjsontofile(character_set)
-
+charset = readjsonfromfile()
+countworkid(charset)
 
