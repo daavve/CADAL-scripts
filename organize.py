@@ -167,7 +167,3 @@ def countworkid(charset: List[Character]) -> None:
             workset.append(char.work_id)
     workset.sort()
     print(workset)
-
-charset = readjsonfromfile()    # This part uses less than 150mb, Probably won't use Database till I have to
-input('press enter to continue')
-
