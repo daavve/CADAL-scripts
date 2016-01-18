@@ -143,7 +143,12 @@ def readjsonfromfile() -> List[Character]:
     jsonfile.close()
     character_set = []
     for r in readfile:
-        character_set.append(Character(r['chi_mark'], r['chi_author'], r['chi_work'], r['work_id'], r['page_id'], r['xy_coordinates']))
+        character_set.append(Character(r['chi_mark'],
+                                       r['chi_author'],
+                                       r['chi_work'],
+                                       r['work_id'],
+                                       r['page_id'],
+                                       r['xy_coordinates']))
     return character_set
 
 
@@ -163,6 +168,6 @@ def countworkid(charset: List[Character]) -> None:
     workset.sort()
     print(workset)
 
-charset = readjsonfromfile()
-countworkid(charset)
+charset = readjsonfromfile()    # This part uses less than 150mb, Probably won't use Database till I have to
+input('press enter to continue')
 
