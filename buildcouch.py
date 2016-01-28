@@ -4,6 +4,8 @@
 #
 #   Probably not going to use couchDB though because it doesn't seem to work too well with django
 #
+#  This code does indeed work, but the database is huge and takes over 10 min to generate.
+#
 ##########################################
 from couchdb import client
 from couchdb.mapping import Document, DictField, TextField, IntegerField, Mapping
