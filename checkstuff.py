@@ -89,7 +89,7 @@ def setseq(char: Character, chfile: Charfile) -> bool:
 
 
 # Note, search not at all efficient, but I only do it once
-def print_data_chars_with_no_file(jchars: Character, fchars: Charfile) -> None:
+def print_data_chars_with_no_file(jchars: List[Character], fchars: List[Charfile]) -> None:
     for jchar in jchars:
         found = False
         for fchar in fchars:
@@ -100,7 +100,7 @@ def print_data_chars_with_no_file(jchars: Character, fchars: Charfile) -> None:
 
 
 # Note, search not at all efficient, but I only do it once
-def print_file_chars_with_no_data(jchars: Character, fchars: Charfile) -> None:
+def print_file_chars_with_no_data(jchars: List[Character], fchars: List[Charfile]) -> None:
     for fchar in fchars:
         found = False
         for jchar in jchars:
@@ -110,6 +110,23 @@ def print_file_chars_with_no_data(jchars: Character, fchars: Charfile) -> None:
             print(str(fchar.work_id) + " " + str(fchar.page_id) + " " + str(fchar.xy_coordinates))  # This should not happen
 
 
+def print_pages_with_no_characters(inpg: List[Page],inchar: List[Character]) -> None:
+    for pg in inpg:
+        foundpg = False
+        for char in inchar:
+            if pg.work_id == char.work_id and pg.page_id == char.page_id:
+                foundpg = True
+        if not foundpg:
+            print(pg.work_id + " " + pg.page_id) # There shouldn't be any
+
+def print_chars_not_in_any_page(inchar, inpg: List[Page]) -> None:
+    for char in inchar:
+        foundchar = False
+        for pg in inpg:
+            if char.work_id == pg.work_id and char.page_id == pg.page_id:
+                foundchar = True
+        if not foundchar:
+            print(char.work_id + " " + char.page_id)
 
 # Reads the json dump I was able to get from the website
 
@@ -126,6 +143,9 @@ print("number of individual characters from website: " + str(charsf.__len__()))
 imgsf = loadimagelist()
 print("number of pages of books from website: " + str(imgsf.__len__()))
 
-# print_data_chars_with_no_file(charsj, charsf)
-
-print_file_chars_with_no_data(charsj, charsf)
+# print_data_chars_with_no_file(charsj, charsf) #None: WOOT!
+# print_file_chars_with_no_data(charsj, charsf)
+# print_pages_with_no_characters(imgsf, charsj)
+print_pages_with_no_characters(imgsf, charsf)
+# print_chars_not_in_any_page(charsj, imgsf) #None: WOOT!
+# print_chars_not_in_any_page(charsf, imgsf)

@@ -1,0 +1,23 @@
+Interestingly,  even though most of the characters in work 49 page 83 exist in character collection(but not database)
+I cannot search characters by image, I get bad results(even though server has exact copy of image I am attempting to
+search for).
+
+Additionally, even tough I have 38 pages of work 49 downloaded.  Interactive page viewer at Cadal website only lets me
+view pages 177(two entries),178,&35).  None of these pages have any characters in the database, or even the collected character files.
+
+
+I do not believe I can view any book pages that nobody else has viewed.  When I try to "try" a book I get an 500
+internal server error.
+
+I do not think I can get source pages for works I don't have.
+
+
+When browsing by work, the contentid=#.  The # is very different from my concept of work ID number.
+
+
+If I spam the server with different contentid ##, I might get lucky.  But I think this is pretty bad idea.
+
+I can query item by chi_work, in chinese,  but in one example, I already have 38 pages downloaded.  But a search got me a
+result of page 16, which I already have :(
+
+
