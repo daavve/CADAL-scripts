@@ -1,11 +1,13 @@
 #! /bin/python
 #
 #   Builds a tree compatable with Django Database
+#   Note, composite itterator method would make this clearer, probably.  But not doing it.
 #
 ##########################################
 
 from typing import List
 import json
+
 
 class Charjson(object):
     def __init__(self, mark: str, author: str, work: str, work_id: str, page_id: str, coordinates: List[str]):
@@ -18,12 +20,28 @@ class Charjson(object):
 
 
 class Book(object):
-    def __init__(self, id: int, title: str, author: str, source: str):
-        self.id = id
+    def __init__(self, bid: int, title: str, author: str):
+        self.bid = bid
         self.title = title
         self.author = author
-        self.source = source
         self.pages = List[Page]
+
+    def addnewpage(newchar: Charjson) -> None:
+        newpage = Page(int(newchar.page_id))
+        newpage.addchar(newchar)
+
+    def addchar(self, newchar: Charjson) -> None:
+        if len(self.pages) >= 1:
+            foundpage = False
+            for page in self.pages:
+                if page.number == int(newchar.page_id):
+                    foundpage = True
+                    page.addchar(newchar)
+                    break
+            if not foundpage:
+                self.addnewpage(newchar)
+        else:
+            self.addnewpage(newchar)
 
 
 class Page(object):
@@ -42,18 +60,25 @@ class Character(object):
 
 books = List[Book]
 
-def loadCharacter(newchar: Charjson) -> None:
-    if books.__sizeof__() >= 1:
+
+def addnewbook(newchar: Charjson) -> None:
+    newbook = Book(int(newchar.work_id, newchar.chi_work, newchar.chi_author))
+    newbook.addchar(newchar)
+    books.append(newbook)
+
+
+def loadcharacter(newchar: Charjson) -> None:
+    if len(books) >= 1:
         foundbook = False
         for book in books:
-            if(book.id == int(newchar.work_id)):
-                book.addpage(newchar)
+            if book.id == int(newchar.work_id):
+                book.addchar(newchar)
                 foundbook = True
+                break
         if not foundbook:
-            books.append(Book())
-
+            addnewbook(newchar)
     else:
-
+        addnewbook(newchar)
 
 
 def readjson(filename: str) -> List[Charjson]:  # Not too bad, less than 70M
