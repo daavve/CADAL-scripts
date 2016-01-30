@@ -44,8 +44,14 @@ books = List[Book]
 
 def loadCharacter(newchar: Charjson) -> None:
     if books.__sizeof__() >= 1:
+        foundbook = False
         for book in books:
-            if()
+            if(book.id == int(newchar.work_id)):
+                book.addpage(newchar)
+                foundbook = True
+        if not foundbook:
+            books.append(Book())
+
     else:
 
 
