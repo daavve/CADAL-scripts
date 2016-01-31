@@ -5,12 +5,12 @@
 #
 ##########################################
 
-from typing import List
+
 import json
 
 
 class Charjson(object):
-    def __init__(self, mark: str, author: str, work: str, work_id: str, page_id: str, coordinates: List[str]):
+    def __init__(self, mark: str, author: str, work: str, work_id: str, page_id: str, coordinates: [str]):
         self.chi_mark = mark
         self.chi_author = author
         self.chi_work = work
@@ -24,7 +24,7 @@ class Book(object):
         self.bid = bid
         self.title = title
         self.author = author
-        self.pages = List[Page]
+        self.pages = [Page]
 
     def addnewpage(self, newchar: Charjson) -> None:
         newpage = Page(int(newchar.page_id))
@@ -48,7 +48,7 @@ class Book(object):
 class Page(object):
     def __init__(self, number: int):
         self.number = number
-        self.characters = List[Character]
+        self.characters = [Character]
 
     def addchar(self, n: Charjson) -> None:
         self.characters.append(Character(n.chi_mark, int(n.xy_coordinates[0]),
@@ -64,16 +64,16 @@ class Character(object):
         self.x2 = x2
         self.y2 = y2
 
-books = List[Book]
+books = [Book]
 
 
 def addnewbook(newchar: Charjson) -> None:
-    newbook = Book(int(newchar.work_id, newchar.chi_work, newchar.chi_author))
+    newbook = Book(int(newchar.work_id), newchar.chi_work, newchar.chi_author)
     newbook.addchar(newchar)
     books.append(newbook)
 
 
-def loadcharacter(newchar: Charjson) -> None:
+def inserttobook(newchar: Charjson) -> None:
     if len(books) >= 1:
         foundbook = False
         for book in books:
@@ -87,7 +87,7 @@ def loadcharacter(newchar: Charjson) -> None:
         addnewbook(newchar)
 
 
-def readjson(filename: str) -> List[Charjson]:  # Not too bad, less than 70M
+def readjson(filename: str) -> [Charjson]:  # Not too bad, less than 70M
     jsonfile = open(filename, "r")
     readfile = json.load(jsonfile)
     jsonfile.close()
@@ -99,3 +99,5 @@ def readjson(filename: str) -> List[Charjson]:  # Not too bad, less than 70M
 
 
 chars = readjson("dump.json")
+for char in chars:
+    inserttobook(char)
