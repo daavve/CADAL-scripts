@@ -6,7 +6,7 @@
 ##########################################
 
 
-import json, os
+import json
 
 
 class Charjson(object):
@@ -63,8 +63,6 @@ class Character(object):
         self.y1 = y1
         self.x2 = x2
         self.y2 = y2
-
-
 
 
 def buildnewbook(newchar: Charjson) -> Book:
