@@ -41,7 +41,7 @@ def readjson(filename: str) -> [Character]:  # Not too bad, less than 70M
     jsonfile = open("dump.json", "r")
     readfile = json.load(jsonfile)
     jsonfile.close()
-    characters = [Character]
+    characters = []
     for r in readfile:
         characters.append(
             Character(r['chi_mark'], r['chi_author'], r['chi_work'], r['work_id'], r['page_id'], r['xy_coordinates']))

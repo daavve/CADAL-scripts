@@ -6,7 +6,7 @@
 ##########################################
 
 
-import json
+import json, os
 
 
 class Charjson(object):
@@ -67,31 +67,31 @@ class Character(object):
 books = [Book]
 
 
-def addnewbook(newchar: Charjson) -> None:
+def buildnewbook(newchar: Charjson) -> Book:
     newbook = Book(int(newchar.work_id), newchar.chi_work, newchar.chi_author)
     newbook.addchar(newchar)
-    books.append(newbook)
+    return newbook
 
 
-def inserttobook(newchar: Charjson) -> None:
-    if len(books) >= 1:
+def inserttobook(newchar: Charjson, boks: [Book]) -> None:
+    if len(boks) >= 1:
         foundbook = False
-        for book in books:
-            if book.id == int(newchar.work_id):
+        for book in boks:
+            if book.bid == int(newchar.work_id):
                 book.addchar(newchar)
                 foundbook = True
                 break
         if not foundbook:
-            addnewbook(newchar)
+            boks.append(buildnewbook(newchar))
     else:
-        addnewbook(newchar)
+        boks.append(buildnewbook(newchar))
 
 
 def readjson(filename: str) -> [Charjson]:  # Not too bad, less than 70M
     jsonfile = open(filename, "r")
     readfile = json.load(jsonfile)
     jsonfile.close()
-    characters = [Charjson]
+    characters = []
     for r in readfile:
         characters.append(
             Charjson(r['chi_mark'], r['chi_author'], r['chi_work'], r['work_id'], r['page_id'], r['xy_coordinates']))
@@ -100,4 +100,4 @@ def readjson(filename: str) -> [Charjson]:  # Not too bad, less than 70M
 
 chars = readjson("dump.json")
 for char in chars:
-    inserttobook(char)
+    inserttobook(char, books)
