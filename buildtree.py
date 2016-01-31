@@ -1,7 +1,7 @@
 #! /bin/python
 #
 #   Builds a tree compatable with Django Database
-#   Note, composite itterator method would make this clearer, probably.  But not doing it.
+#   Note, pretty slow and ineficient, as we build use dfs to build character tree.
 #
 ##########################################
 
@@ -64,7 +64,7 @@ class Character(object):
         self.x2 = x2
         self.y2 = y2
 
-books = []
+
 
 
 def buildnewbook(newchar: Charjson) -> Book:
@@ -97,7 +97,9 @@ def readjson(filename: str) -> [Charjson]:  # Not too bad, less than 70M
             Charjson(r['chi_mark'], r['chi_author'], r['chi_work'], r['work_id'], r['page_id'], r['xy_coordinates']))
     return characters
 
-
+books = []
 chars = readjson("dump.json")
 for char in chars:
     inserttobook(char, books)
+
+
