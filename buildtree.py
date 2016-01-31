@@ -88,15 +88,14 @@ def loadcharacter(newchar: Charjson) -> None:
 
 
 def readjson(filename: str) -> List[Charjson]:  # Not too bad, less than 70M
-    jsonfile = open("dump.json", "r")
+    jsonfile = open(filename, "r")
     readfile = json.load(jsonfile)
     jsonfile.close()
-    characters = []
+    characters = [Charjson]
     for r in readfile:
         characters.append(
-            Character(r['chi_mark'], r['chi_author'], r['chi_work'], r['work_id'], r['page_id'], r['xy_coordinates']))
+            Charjson(r['chi_mark'], r['chi_author'], r['chi_work'], r['work_id'], r['page_id'], r['xy_coordinates']))
     return characters
 
 
-
-
+chars = readjson("dump.json")
