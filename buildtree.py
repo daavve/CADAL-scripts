@@ -26,9 +26,10 @@ class Book(object):
         self.author = author
         self.pages = List[Page]
 
-    def addnewpage(newchar: Charjson) -> None:
+    def addnewpage(self, newchar: Charjson) -> None:
         newpage = Page(int(newchar.page_id))
         newpage.addchar(newchar)
+        self.pages.append(newpage)
 
     def addchar(self, newchar: Charjson) -> None:
         if len(self.pages) >= 1:
@@ -49,6 +50,11 @@ class Page(object):
         self.number = number
         self.characters = List[Character]
 
+    def addchar(self, n: Charjson) -> None:
+        self.characters.append(Character(n.chi_mark, int(n.xy_coordinates[0]),
+                                                     int(n.xy_coordinates[1]),
+                                                     int(n.xy_coordinates[2]),
+                                                     int(n.xy_coordinates[3])))
 
 class Character(object):
     def __init__(self, mark: str, x1: int, y1: int, x2: int, y2: int):
