@@ -24,7 +24,7 @@ class Book(object):
         self.bid = bid
         self.title = title
         self.author = author
-        self.pages = [Page]
+        self.pages = []
 
     def addnewpage(self, newchar: Charjson) -> None:
         newpage = Page(int(newchar.page_id))
@@ -48,7 +48,7 @@ class Book(object):
 class Page(object):
     def __init__(self, number: int):
         self.number = number
-        self.characters = [Character]
+        self.characters = []
 
     def addchar(self, n: Charjson) -> None:
         self.characters.append(Character(n.chi_mark, int(n.xy_coordinates[0]),
@@ -64,7 +64,7 @@ class Character(object):
         self.x2 = x2
         self.y2 = y2
 
-books = [Book]
+books = []
 
 
 def buildnewbook(newchar: Charjson) -> Book:
