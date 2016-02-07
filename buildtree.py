@@ -19,6 +19,36 @@ class Charjson(object):
         self.xy_coordinates = coordinates
 
 
+class Library(object):
+    def __init__(self, title: str):
+        self.title = title
+        self.collections = []
+
+
+class Collection(object):
+    def __init__(self, title: str):
+        self.title = title
+        self.books = []
+
+    def addnewbook(self,newchar: Charjson) -> None:
+        newbook = Book(int(newchar.work_id), newchar.chi_work, newchar.chi_author)
+        newbook.addchar(newchar)
+        self.books.append(newbook)
+
+    def addchar(self, newchar: Charjson) -> None:
+        if len(self.books) >= 1:
+            foundbook = False
+            for book in self.books:
+                if book.bid == int(newchar.work_id):
+                    book.addchar(newchar)
+                    foundbook = True
+                    break
+            if not foundbook:
+                self.addnewbook(newchar)
+        else:
+            self.addnewbook(newchar)
+
+
 class Book(object):
     def __init__(self, bid: int, title: str, author: str):
         self.bid = bid
@@ -56,6 +86,7 @@ class Page(object):
                                                      int(n.xy_coordinates[2]),
                                                      int(n.xy_coordinates[3])))
 
+
 class Character(object):
     def __init__(self, mark: str, x1: int, y1: int, x2: int, y2: int):
         self.mark = mark
@@ -63,26 +94,6 @@ class Character(object):
         self.y1 = y1
         self.x2 = x2
         self.y2 = y2
-
-
-def buildnewbook(newchar: Charjson) -> Book:
-    newbook = Book(int(newchar.work_id), newchar.chi_work, newchar.chi_author)
-    newbook.addchar(newchar)
-    return newbook
-
-
-def inserttobook(newchar: Charjson, boks: [Book]) -> None:
-    if len(boks) >= 1:
-        foundbook = False
-        for book in boks:
-            if book.bid == int(newchar.work_id):
-                book.addchar(newchar)
-                foundbook = True
-                break
-        if not foundbook:
-            boks.append(buildnewbook(newchar))
-    else:
-        boks.append(buildnewbook(newchar))
 
 
 def readjson(filename: str) -> [Charjson]:  # Not too bad, less than 70M
@@ -95,9 +106,11 @@ def readjson(filename: str) -> [Charjson]:  # Not too bad, less than 70M
             Charjson(r['chi_mark'], r['chi_author'], r['chi_work'], r['work_id'], r['page_id'], r['xy_coordinates']))
     return characters
 
-books = []
-chars = readjson("dump.json")
+library = Library("Calligraphy")
+library.collections.append(Collection("CADAL"))
+library.collections.append(Collection("KOSUKE"))
+chars = readjson('dump.json')
 for char in chars:
-    inserttobook(char, books)
+    library.collections[0].addchar(char)
 
-
+print("done")
