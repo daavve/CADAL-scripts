@@ -1,7 +1,8 @@
 #! /bin/python
 #
 #   Builds a tree compatable with Django Database
-#   Note, pretty slow and ineficient, as we build use dfs to build character tree.
+#   Note, pretty slow and ineficient.
+#   The items in the nodes get walked though.  A search would be much more efficient.
 #
 ##########################################
 
@@ -113,4 +114,3 @@ chars = readjson('dump.json')
 for char in chars:
     library.collections[0].addchar(char)
 
-print("done")
