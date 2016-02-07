@@ -67,7 +67,7 @@ def loadimagelist() -> [Page]:  # I know cut / paste coding is bad, but i'm in a
     imgfiles = []
     for f in os.listdir(ROOTDIR + BOOKSDIR):
         pathname = os.path.join(ROOTDIR + BOOKSDIR, f)
-        booknum = str(pathname).split('/')[4]
+        booknum = str(pathname).split('/')[3]
         if S_ISDIR(os.stat(pathname).st_mode):
             for img in os.listdir(pathname):
                 if img.endswith('.jpg'):

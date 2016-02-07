@@ -55,17 +55,18 @@ class Collection(object):
         self.books.append(newbook)
 
     def addpage(self, newpage: Charjson) -> None:
-        if len(self.books ) >= 1:
+        if len(self.books) >= 1:
+            foundbook = False
             for book in self.books:
-                foundbook = False
                 if book.bid == int(newpage.work_id):
-                    book.addPage(newpage)
+                    book.addpage(newpage)
                     foundbook = True
                     break
-                if not foundbook:
-                    self.addpagetobook(newpage)
+            if not foundbook:
+                self.addpagetobook(newpage)
         else:
             self.addpagetobook(newpage)
+
 
 class Book(object):
     def __init__(self, bid: int, title: str, author: str):
@@ -92,7 +93,6 @@ class Book(object):
         else:
             self.addnewpage(newchar)
 
-
     def addpage(self, newpage: Charjson) -> None:
         if len(self.pages) >= 1:
             foundpage = False
@@ -104,9 +104,6 @@ class Book(object):
                 self.pages.append(Page(int(newpage.page_id)))
         else:
             self.pages.append(Page(int(newpage.page_id)))
-
-
-
 
 
 class Page(object):
@@ -154,7 +151,7 @@ def readjson(filename: str) -> [Charjson]:  # Not too bad, less than 70M
 
 ROOTDIR = "fetch/"
 HTMDIR = "charDataHTML/"
-BOOKSDIR = "CalliSources/books/"
+BOOKSDIR = "cadal/books/"
 CHARDIR = "cadal/characterimage/"
 
 
@@ -169,11 +166,11 @@ def getcharsbyfilename() -> [Charjson]:
                     imgs = img.split('(')
                     pagenum = imgs[0]
                     coords = imgs[1].strip(').jpg').split(',')
-                    charfiles.append(Charjson("Page", "?", "?",booknum, pagenum, coords))
+                    charfiles.append(Charjson("?", "?", "?", booknum, pagenum, coords))
     return charfiles
 
 
-def loadimagelist() -> [Charjson]:  # I know cut / paste coding is bad, but i'm in a hurry
+def getpages() -> [Charjson]:  # I know cut / paste coding is bad, but i'm in a hurry
     imgfiles = []
     for f in os.listdir(ROOTDIR + BOOKSDIR):
         pathname = os.path.join(ROOTDIR + BOOKSDIR, f)
@@ -182,12 +179,13 @@ def loadimagelist() -> [Charjson]:  # I know cut / paste coding is bad, but i'm 
             for img in os.listdir(pathname):
                 if img.endswith('.jpg'):
                     imgname = img.strip('.jpg')
-                    imgfiles.append(Charjson("?", "?", "?", booknum, imgname, [0, 0, 0, 0]))
+                    imgfiles.append(Charjson("?", "?", "?", booknum, imgname, ['?']))
     return imgfiles
 
 library = Library("Calligraphy")
 library.collections.append(Collection("CADAL"))
 library.collections.append(Collection("KOSUKE"))
+
 chars = readjson('dump.json')
 for char in chars:
     library.collections[0].addchar(char)
@@ -196,7 +194,7 @@ filechars = getcharsbyfilename()
 for char in filechars:
     library.collections[0].addchar(char)
 
-pageonly = loadimagelist()
+pageonly = getpages()
 for page in pageonly:
     library.collections[0].addpage(page)
 
