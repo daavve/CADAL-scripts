@@ -112,15 +112,18 @@ class Page(object):
         self.characters = []
 
     def addnewchar(self, newchar: Charjson) -> None:
-        self.characters.append(Character(newchar.chi_mark, int(newchar.xy_coordinates[0]),
-                                                     int(newchar.xy_coordinates[1]),
-                                                     int(newchar.xy_coordinates[2]),
-                                                     int(newchar.xy_coordinates[3])))
+        if newchar.xy_coordinates[0] == '?':
+            self.characters.append(Character(newchar.chi_mark, 0, 0, 0, 0))
+        else:
+            self.characters.append(Character(newchar.chi_mark, int(newchar.xy_coordinates[0]),
+                                                               int(newchar.xy_coordinates[1]),
+                                                               int(newchar.xy_coordinates[2]),
+                                                               int(newchar.xy_coordinates[3])))
 
     def addchar(self, newchar: Charjson) -> None:
         if len(self.characters) >= 1:
             foundchar = False
-            if int(newchar.xy_coordinates[0]) == 0 and int(newchar.xy_coordinates[1]) == 0 and int(newchar.xy_coordinates[2]) == 0 and int(newchar.xy_coordinates[3]) == 0:
+            if int(newchar.xy_coordinates[0]) == '?':
                 self.addnewchar(newchar)
             else:
                 for chara in self.characters:
@@ -195,12 +198,29 @@ def getpagesfromkosukebook() -> [Charjson]:  # I know cut / paste coding is bad,
     for img in os.listdir(pathname):
         if img.endswith('i.png'):
             imgname = img.strip('i.png')
-            imgfiles.append(Charjson("?", "?", "?", booknum, imgname, ['?']))
+            imgfiles.append(Charjson("?", "王羲之", "集字聖教序 東普", booknum, imgname, ['?']))
     return imgfiles
 
+CHARTXTFILE = "fetch/scanned/1/tesseract_convert.txt"
+NOTCHARS = "﹒。o‵‧ ˙\n"
 
 def txt2char() -> [Charjson]:
-    f = open()
+    charsinpage = []
+    f = open(CHARTXTFILE, encoding="utf-8")
+    filebuff = f.read()
+    f.close()
+    filebuff = filebuff.split('##########################################')[1]
+    filebuff = filebuff.split('STOP!')[0]
+    filebuff = filebuff.split('-----------------------')
+    for scannedpage in filebuff:
+        pagesplit = scannedpage.split('t.png')
+        pagenum = pagesplit[0].strip('\n')
+        pagechars = pagesplit[1]
+        for char in pagechars:
+            if NOTCHARS.count(char) == 0:
+                charsinpage.append(Charjson(char, "王羲之", "集字聖教序 東普", 1, pagenum, ['?']))
+    return charsinpage
+
 
 library = Library("Calligraphy")
 library.collections.append(Collection("CADAL"))
@@ -225,5 +245,5 @@ library.collections.append(Collection("KOSUKE"))
 
 
 txtchar = txt2char()
-
-input("press anykey -->")
+for char in txtchar:
+    library.collections[1].addchar(char)
