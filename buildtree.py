@@ -113,7 +113,7 @@ class Page(object):
 
     def addnewchar(self, newchar: Charjson) -> None:
         if newchar.xy_coordinates[0] == '?':
-            self.characters.append(Character(newchar.chi_mark, 0, 0, 0, 0))
+            self.characters.append(Character(newchar.chi_mark, -1, -1, -1, -1))
         else:
             self.characters.append(Character(newchar.chi_mark, int(newchar.xy_coordinates[0]),
                                                                int(newchar.xy_coordinates[1]),
@@ -123,7 +123,7 @@ class Page(object):
     def addchar(self, newchar: Charjson) -> None:
         if len(self.characters) >= 1:
             foundchar = False
-            if int(newchar.xy_coordinates[0]) == '?':
+            if newchar.xy_coordinates[0] == '?':
                 self.addnewchar(newchar)
             else:
                 for chara in self.characters:
@@ -226,23 +226,22 @@ library = Library("Calligraphy")
 library.collections.append(Collection("CADAL"))
 library.collections.append(Collection("KOSUKE"))
 
-#chars = readjson('dump.json')
-#for char in chars:
-#    library.collections[0].addchar(char)
+chars = readjson('dump.json')
+for char in chars:
+    library.collections[0].addchar(char)
 
-#filechars = getcharsbyfilename()
-#for char in filechars:
-#    library.collections[0].addchar(char)
+filechars = getcharsbyfilename()
+for char in filechars:
+    library.collections[0].addchar(char)
 
-#pageonly = getpages()
-#for page in pageonly:
-#    library.collections[0].addpage(page)
+pageonly = getpages()
+for page in pageonly:
+    library.collections[0].addpage(page)
 
 
-#kosukepage = getpagesfromkosukebook()
-#for page in kosukepage:
-#    library.collections[1].addpage(page)
-
+kosukepage = getpagesfromkosukebook()
+for page in kosukepage:
+    library.collections[1].addpage(page)
 
 txtchar = txt2char()
 for char in txtchar:
