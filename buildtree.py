@@ -120,12 +120,15 @@ class Page(object):
     def addchar(self, newchar: Charjson) -> None:
         if len(self.characters) >= 1:
             foundchar = False
-            for chara in self.characters:
-                if int(newchar.xy_coordinates[0]) == chara.x1 and int(newchar.xy_coordinates[1]) == chara.y1 and int(newchar.xy_coordinates[2]) == chara.x2 and int(newchar.xy_coordinates[3]) == chara.y2:
-                    foundchar = True
-                    break
-            if not foundchar:
+            if int(newchar.xy_coordinates[0]) == 0 and int(newchar.xy_coordinates[1]) == 0 and int(newchar.xy_coordinates[2]) == 0 and int(newchar.xy_coordinates[3]) == 0:
                 self.addnewchar(newchar)
+            else:
+                for chara in self.characters:
+                    if int(newchar.xy_coordinates[0]) == chara.x1 and int(newchar.xy_coordinates[1]) == chara.y1 and int(newchar.xy_coordinates[2]) == chara.x2 and int(newchar.xy_coordinates[3]) == chara.y2:
+                        foundchar = True
+                        break
+                if not foundchar:
+                    self.addnewchar(newchar)
         else:
             self.addnewchar(newchar)
 
@@ -182,21 +185,45 @@ def getpages() -> [Charjson]:  # I know cut / paste coding is bad, but i'm in a 
                     imgfiles.append(Charjson("?", "?", "?", booknum, imgname, ['?']))
     return imgfiles
 
+KOSUKEDIR = "scanned/1"
+
+
+def getpagesfromkosukebook() -> [Charjson]:  # I know cut / paste coding is bad, but i'm in a hurry
+    imgfiles = []
+    pathname = os.path.join(ROOTDIR + KOSUKEDIR)
+    booknum = str(pathname).split('/')[2]
+    for img in os.listdir(pathname):
+        if img.endswith('i.png'):
+            imgname = img.strip('i.png')
+            imgfiles.append(Charjson("?", "?", "?", booknum, imgname, ['?']))
+    return imgfiles
+
+
+def txt2char() -> [Charjson]:
+    f = open()
+
 library = Library("Calligraphy")
 library.collections.append(Collection("CADAL"))
 library.collections.append(Collection("KOSUKE"))
 
-chars = readjson('dump.json')
-for char in chars:
-    library.collections[0].addchar(char)
+#chars = readjson('dump.json')
+#for char in chars:
+#    library.collections[0].addchar(char)
 
-filechars = getcharsbyfilename()
-for char in filechars:
-    library.collections[0].addchar(char)
+#filechars = getcharsbyfilename()
+#for char in filechars:
+#    library.collections[0].addchar(char)
 
-pageonly = getpages()
-for page in pageonly:
-    library.collections[0].addpage(page)
+#pageonly = getpages()
+#for page in pageonly:
+#    library.collections[0].addpage(page)
 
+
+#kosukepage = getpagesfromkosukebook()
+#for page in kosukepage:
+#    library.collections[1].addpage(page)
+
+
+txtchar = txt2char()
 
 input("press anykey -->")
