@@ -113,7 +113,7 @@ class Page(object):
 
     def addnewchar(self, newchar: Charjson) -> None:
         if newchar.xy_coordinates[0] == '?':
-            self.characters.append(Character(newchar.chi_mark, -1, -1, -1, -1))
+            self.characters.append(Character(newchar.chi_mark, 0, 0, 0, 0))
         else:
             self.characters.append(Character(newchar.chi_mark, int(newchar.xy_coordinates[0]),
                                                                int(newchar.xy_coordinates[1]),
