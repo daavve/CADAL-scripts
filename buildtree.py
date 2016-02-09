@@ -114,6 +114,14 @@ class Page(object):
         self.collection = collection
         self.characters = []
 
+    def getfilepath(self) -> str:
+        if self.collection == 'cadal':
+            bookpath = '{:08d}'.format(self.bid) + '/'
+            pagepath = '{:08d}'.format(self.number) + '.jpg'
+            return self.collection + '/books/' + bookpath + pagepath
+        else:
+            return self.collection + '/' + str(self.bid) + '/' + str(self.number) + 'i.png'
+
     def addnewchar(self, newchar: Charjson) -> None:
         if newchar.xy_coordinates[0] == '?':
             self.characters.append(Character(newchar.chi_mark, 0, 0, 0, 0, self.bid, self.number, self.collection))
@@ -143,7 +151,7 @@ class Page(object):
 
 
 class Character(object):
-    def __init__(self, mark: str, x1: int, y1: int, x2: int, y2: int, pageid: int, bookid: int, collection: str):
+    def __init__(self, mark: str, x1: int, y1: int, x2: int, y2: int, bookid: int, pageid: int, collection: str):
         self.mark = mark
         self.x1 = x1
         self.y1 = y1
@@ -152,6 +160,12 @@ class Character(object):
         self.pageid = pageid
         self.bookid = bookid
         self.collection = collection
+
+    def getfilepath(self) -> str:
+        bookpath = '{:08d}'.format(self.bookid) + '/'
+        charfront = '{:08d}'.format(self.pageid) + '('
+        charrear = str(self.x1) + ',' + str(self.y1) + ',' + str(self.x2) + ',' + str(self.y2) + ').jpg'
+        return self.collection + '/characterimage/' + bookpath + charfront + charrear
 
 
 def readjson(filename: str) -> [Charjson]:  # Not too bad, less than 70M
@@ -228,13 +242,13 @@ def txt2char() -> [Charjson]:
         pagechars = pagesplit[1]
         for char in pagechars:
             if NOTCHARS.count(char) == 0:
-                charsinpage.append(Charjson(char, "王羲之", "集字聖教序 東普", 1, pagenum, ['?']))
+                charsinpage.append(Charjson(char, "王羲之", "集字聖教序", 1, pagenum, ['?']))
     return charsinpage
 
 
 library = Library("Calligraphy")
-library.collections.append(Collection("CADAL"))
-library.collections.append(Collection("KOSUKE"))
+library.collections.append(Collection("cadal"))
+library.collections.append(Collection("scanned"))
 
 chars = readjson('dump.json')
 for char in chars:
