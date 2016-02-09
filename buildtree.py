@@ -31,8 +31,8 @@ class Collection(object):
         self.title = title
         self.books = []
 
-    def addnewbook(self,newchar: Charjson) -> None:
-        newbook = Book(int(newchar.work_id), newchar.chi_work, newchar.chi_author)
+    def addnewbook(self, newchar: Charjson) -> None:
+        newbook = Book(int(newchar.work_id), newchar.chi_work, newchar.chi_author, self.title)
         newbook.addchar(newchar)
         self.books.append(newbook)
 
@@ -50,7 +50,7 @@ class Collection(object):
             self.addnewbook(newchar)
 
     def addpagetobook(self, newpage: Charjson) -> None:
-        newbook = Book(int(newpage.work_id), newpage.chi_work, newpage.chi_author)
+        newbook = Book(int(newpage.work_id), newpage.chi_work, newpage.chi_author, self.title)
         newbook.addpage(newpage)
         self.books.append(newbook)
 
@@ -69,14 +69,15 @@ class Collection(object):
 
 
 class Book(object):
-    def __init__(self, bid: int, title: str, author: str):
+    def __init__(self, bid: int, title: str, author: str, collection: str):
         self.bid = bid
         self.title = title
         self.author = author
         self.pages = []
+        self.collection = collection
 
     def addnewpage(self, newchar: Charjson) -> None:
-        newpage = Page(int(newchar.page_id))
+        newpage = Page(int(newchar.page_id), self.bid, self.collection)
         newpage.addchar(newchar)
         self.pages.append(newpage)
 
@@ -101,24 +102,29 @@ class Book(object):
                     foundpage = True
                     break
             if not foundpage:
-                self.pages.append(Page(int(newpage.page_id)))
+                self.pages.append(Page(int(newpage.page_id), self.bid, self.collection))
         else:
-            self.pages.append(Page(int(newpage.page_id)))
+            self.pages.append(Page(int(newpage.page_id), self.bid, self.collection))
 
 
 class Page(object):
-    def __init__(self, number: int):
+    def __init__(self, number: int, bid: int, collection: str):
         self.number = number
+        self.bid = bid
+        self.collection = collection
         self.characters = []
 
     def addnewchar(self, newchar: Charjson) -> None:
         if newchar.xy_coordinates[0] == '?':
-            self.characters.append(Character(newchar.chi_mark, 0, 0, 0, 0))
+            self.characters.append(Character(newchar.chi_mark, 0, 0, 0, 0, self.bid, self.number, self.collection))
         else:
             self.characters.append(Character(newchar.chi_mark, int(newchar.xy_coordinates[0]),
                                                                int(newchar.xy_coordinates[1]),
                                                                int(newchar.xy_coordinates[2]),
-                                                               int(newchar.xy_coordinates[3])))
+                                                               int(newchar.xy_coordinates[3]),
+                                                                   self.bid,
+                                                                   self.number,
+                                                                   self.collection))
 
     def addchar(self, newchar: Charjson) -> None:
         if len(self.characters) >= 1:
@@ -137,12 +143,15 @@ class Page(object):
 
 
 class Character(object):
-    def __init__(self, mark: str, x1: int, y1: int, x2: int, y2: int):
+    def __init__(self, mark: str, x1: int, y1: int, x2: int, y2: int, pageid: int, bookid: int, collection: str):
         self.mark = mark
         self.x1 = x1
         self.y1 = y1
         self.x2 = x2
         self.y2 = y2
+        self.pageid = pageid
+        self.bookid = bookid
+        self.collection = collection
 
 
 def readjson(filename: str) -> [Charjson]:  # Not too bad, less than 70M
@@ -203,6 +212,7 @@ def getpagesfromkosukebook() -> [Charjson]:  # I know cut / paste coding is bad,
 
 CHARTXTFILE = "fetch/scanned/1/tesseract_convert.txt"
 NOTCHARS = "﹒。o‵‧ ˙\n"
+
 
 def txt2char() -> [Charjson]:
     charsinpage = []
