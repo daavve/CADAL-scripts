@@ -35,6 +35,7 @@ for childdir in os.listdir(BASEPATH):
     for file in filenames:
         fullpath = Path(os.path.join(fullchildpath, file))
         webpath = "http://" + str(fullpath)
+        print("Grabbing: " + webpath)
         webfile = request.urlopen(webpath)
         webimage = webfile.read()
         webfile.close()
