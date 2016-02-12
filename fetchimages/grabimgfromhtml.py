@@ -5,7 +5,6 @@
 #####################################
 
 from bs4 import BeautifulSoup as BS
-from urllib import request
 from pathlib import Path
 import os
 
@@ -28,15 +27,13 @@ def runbs(inhtml: str) -> [str]:
 for childdir in os.listdir(BASEPATH):
     childpath = os.path.join(BASEPATH, childdir)
     fullchildpath = os.path.join(childpath, "otiff")
-    infile = open(os.path.join(fullchildpath, "index.html"), 'r')
+    infile = open(os.path.join(fullchildpath, "index.html"), mode='r')
     htmlfile = infile.read()
     infile.close()
+    outfile = open(os.path.join(fullchildpath, "downloadlist.txt"), mode="w")
     filenames = runbs(htmlfile)
     for file in filenames:
-        fullpath = Path(os.path.join(fullchildpath, file))
-        webpath = "http://" + str(fullpath)
-        print("Grabbing: " + webpath)
-        webfile = request.urlopen(webpath)
-        webimage = webfile.read()
-        webfile.close()
-        fullpath.write_bytes(webimage)
+        outfile.write("http://" + str(fullchildpath) + "/" + file + "\n")
+    outfile.close()
+
+

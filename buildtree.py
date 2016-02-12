@@ -118,9 +118,9 @@ class Page(object):
         if self.collection == 'cadal':
             bookpath = '{:08d}'.format(self.bid) + '/'
             pagepath = '{:08d}'.format(self.number) + '.jpg'
-            return self.collection + '/books/' + bookpath + pagepath
+            return "fetch/" + self.collection + '/books/' + bookpath + pagepath
         else:
-            return self.collection + '/' + str(self.bid) + '/' + str(self.number) + 'i.png'
+            return "fetch/" + self.collection + '/' + str(self.bid) + '/' + str(self.number) + 'i.png'
 
     def addnewchar(self, newchar: Charjson) -> None:
         if newchar.xy_coordinates[0] == '?':
@@ -165,7 +165,7 @@ class Character(object):
         bookpath = '{:08d}'.format(self.bookid) + '/'
         charfront = '{:08d}'.format(self.pageid) + '('
         charrear = str(self.x1) + ',' + str(self.y1) + ',' + str(self.x2) + ',' + str(self.y2) + ').jpg'
-        return self.collection + '/characterimage/' + bookpath + charfront + charrear
+        return "fetch/" + self.collection + '/characterimage/' + bookpath + charfront + charrear
 
 
 def readjson(filename: str) -> [Charjson]:  # Not too bad, less than 70M
