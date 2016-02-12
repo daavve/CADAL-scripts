@@ -12,7 +12,7 @@ for file in $filelist; do
     weblist=$(cat $file)
     for web in $weblist; do
         outfile=$filedir${web:62}
-        wget --output-document=$outfile $web
+        wget --output-document=$outfile $web &> /dev/null
     done
 done
 
