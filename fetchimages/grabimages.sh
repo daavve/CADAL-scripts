@@ -5,12 +5,16 @@
 ############################
 
 
+filelist=$(find www.cadal.zju.edu.cn/ -name "downloadlist.txt")
 
-BASEWEB="http://www.cadal.zju.edu.cn/CalliSources/books/"
-
-DIRLIST=$(cat dirlist.txt)
-
-for dir in $DIRLIST; do
-    echo "Grabbing: " $dir
-    wget -m --no-parent -r $BASEWEB"/"$dir"/otiff/"
+for file in $filelist; do
+    filedir=${file::55}
+    weblist=$(cat $file)
+    for web in $weblist; do
+        outfile=$filedir${web:62}
+        wget --output-document=$outfile $web
+    done
 done
+
+
+
