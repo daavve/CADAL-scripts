@@ -12,7 +12,7 @@ BASEPATH="www.cadal.zju.edu.cn/CalliSources/books"
 
 
 def runbs(inhtml: str) -> [str]:
-    soup = BS(inhtml, "html.parser")
+    soup = BS(inhtml, "html5lib") #HTML5 does not break during find_all on big sets
     asoup = soup.find_all('a')
     filenames = []
     skippedfirst = False
@@ -22,7 +22,6 @@ def runbs(inhtml: str) -> [str]:
         else:
             skippedfirst = True
     return filenames
-
 
 for childdir in os.listdir(BASEPATH):
     childpath = os.path.join(BASEPATH, childdir)
