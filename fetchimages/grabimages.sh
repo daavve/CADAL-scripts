@@ -13,7 +13,7 @@ for file in $filelist; do
     for web in $weblist; do
         outfile=$filedir${web:62}
         if [ ! -f $outfile ]; then
-            wget --output-document=$outfile $web &> /dev/null
+            wget --output-document=$outfile $web
         fi
     done
 done
