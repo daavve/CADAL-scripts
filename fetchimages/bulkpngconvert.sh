@@ -12,7 +12,7 @@ for i in $(find . -maxdepth 1 -type d); do
         for j in $(ls *.tif); do
             echo $j
             convert -quality 9 $j {j:0:8}".png"
-            rm $i
+            rm $j
         done
         cd $START_DIR
     fi
