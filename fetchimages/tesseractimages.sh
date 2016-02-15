@@ -4,7 +4,7 @@
 #
 ####################################
 
-cd "www.cadal.zju.edu.cn/CalliSources/booksserve"
+cd "www.cadal.zju.edu.cn/CalliSources/books"
 START_DIR=$(pwd)
 for i in $(find . -type d -maxdepth 1); do
     if [ ${i:3} ]; then
