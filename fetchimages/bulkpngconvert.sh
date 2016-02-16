@@ -15,9 +15,9 @@ for i in $(find . -maxdepth 1 -type d); do
             sizetiff=$(du -k "$tiffile" | cut -f 1)
             sizepng=$(du -k "$pngfile" | cut -f 1)
             if [ $sizetiff -lt $sizepng ]; then
-                rm $pngfile
+                rm -f $pngfile
             else
-                rm $tiffile
+                rm -f $tiffile
             fi
         done
         cd $START_DIR
