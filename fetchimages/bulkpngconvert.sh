@@ -15,7 +15,7 @@ for i in $(find . -maxdepth 1 -type d); do
             echo "identify: "$j
             jid=$(identify $j | grep '8-bit') # Binary images get bigger when we compress them?
             length=${#jid}
-            if [ length -gt 3 ]; then
+            if [ $length -gt 3 ]; then
                 convert -verbose -quality 9 $j ${j:0:8}".png"
                 rm $j
             fi
