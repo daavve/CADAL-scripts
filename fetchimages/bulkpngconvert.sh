@@ -11,7 +11,7 @@ for i in $(find . -maxdepth 1 -type d); do
         cd ${i:2}"/otiff"
         for tiffile in $(ls *.tif); do
             pngfile=${tiffile:0:8}".png"
-            convert -verbose -quality 9 $tiffile $pngfile # Sometimes png is bigger than tif.
+            convert -quality 9 $tiffile $pngfile # Sometimes png is bigger than tif.
             if [ $? -eq 0 ]; then
                 sizetiff=$(du -k "$tiffile" | cut -f 1)
                 sizepng=$(du -k "$pngfile" | cut -f 1)
