@@ -4,21 +4,18 @@
 #
 ##########################################
 
-cd "www.cadal.zju.edu.cn/CalliSources/books_local"
+cd "www.cadal.zju.edu.cn/CalliSources/books"
 START_DIR=$(pwd)
 for i in $(find . -maxdepth 1 -type d); do
     if [ ${i:3} ]; then
         cd ${i:2}"/otiff"
         for j in $(ls *.tif); do
             echo "identify: "$j
-            jid=$(identify $j | grep '8-bit')
+            jid=$(identify $j | grep '8-bit') # Binary images get bigger when we compress them?
             if [ ${jid:3} ]; then
                 convert -verbose -quality 9 $j ${j:0:8}".png"
-
-            else
-                convert -verbose -quality 9 -colors 4 $j ${j:0:8}".png"
+                rm $j
             fi
-            rm $j
         done
         cd $START_DIR
     fi
