@@ -82,7 +82,8 @@ def grabfile(webaddress: str) -> str:
     url.close()
     return gotimage
 
-
+# Note:  This part ended up becoming unnessecary, I found that the high resolution images are stored in a seperate
+# Folder with lover resolution jpeg images generated on demand.
 def checkfilesanddirs(char: Character) -> None:
     imagedir = ROOTDIR + BOOKSDIR + char.work_id
     if not Path(imagedir).is_dir():
