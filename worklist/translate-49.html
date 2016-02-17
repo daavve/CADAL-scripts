@@ -1,0 +1,100 @@
+
+
+
+
+
+<!DOCTYPE html>
+<!--用于显示具体的作品！-->
+<html>
+    <head>
+        <link rel="SHORTCUT ICON" href="res/favicon.ico"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link href="style/style.css" rel="stylesheet" type="text/css"></link>
+        <link href="style/forworkdetail.css" rel="stylesheet" type="text/css"></link>
+        <script type="text/javascript" src="script/showContentPage.js" ></script>
+        <title>Cadal-Calligraphy</title>
+    </head>
+    <body>
+        <div id="holder">
+            <div id="header">
+                <img src="res/header.jpg" usemap="#links"></img>
+                <map name="links">
+                    <area shape="rect" coords="0,0,140,140" href="works.jsp" />
+                    <area shape="rect" coords="900,0,1000,100" href="/" />
+                </map>
+            </div>
+            <div id="menu">
+                <ul>
+                    <li><a href="worklist.jsp"><img src="res/menu_1s.jpg"></img></a></li>
+                    <li><a href="characters.jsp"><img src="res/menu_2.jpg"></img></a></li>
+                    <li><a href="books.jsp"><img src="res/menu_3.jpg"></img></a></li>
+                    <li><a href="synthesis.jsp"><img src="res/menu_4.jpg"></img></a></li>
+                    <li><a href="render.jsp"><img src="res/menu_5.jpg"></img></a></li>
+                    <li><a href="recognize.jsp"><img src="res/menu_6.jpg"></img></a></li>
+                    <li><a href="applist.jsp"><img src="res/menu_7.jpg"></img></a></li>
+                </ul>
+            </div>
+            <div id="shadow">
+            </div>
+            <div id="content">
+                <div id="search">
+                    <form action="worklist.jsp" method="post">
+                        <label>书法作品</label>
+                        <label class="sticker">作品名</label>
+                        <input type="text" name="name"></input>
+                        <label class="sticker">书家</label>
+                        <input type="text" name="calligrapher"></input>
+                        <label class="sticker">关键字</label>
+                        <input type="text" name="keyword"></input>
+                        <label class="sticker">朝代</label>
+                        <input type="text" name="dynasty"></input>
+                        <input class="query" type="submit" value="查询"></input>
+                    </form>
+                </div>
+                <div class="split"></div>
+                <div id="main_content">
+                    
+                    <div class="tag">
+                        <label>书家简介：</label>
+                        <div id="calligrapher_info">
+                            <a href="http://10.15.62.103/bns/person/personbase.html?name=颜真卿">颜真卿</a>,唐                   ,
+                        </div>
+                    </div>
+                    <div class="split_fit"></div>
+                    <div id="show_work_pic">
+                        <!--用于显示作品的特定页-->
+                        
+                        <img src="http://www.cadal.zju.edu.cn/CalliSources/images/books/06100014/00000177.jpg"></img>
+                        
+                    </div>
+                    <div id="foresee">
+                        <a href="javascript:void(0);">
+<img src="http://www.cadal.zju.edu.cn/CalliSources/images/ico/06100014/00000177.jpg" id="49_1" class="selected"></img>
+</a>
+<a href="javascript:void(0);">
+<img src="http://www.cadal.zju.edu.cn/CalliSources/images/ico/06100014/00000177.jpg" id="49_2"></img>
+</a>
+<a href="javascript:void(0);">
+<img src="http://www.cadal.zju.edu.cn/CalliSources/images/ico/06100014/00000178.jpg" id="49_3"></img>
+</a>
+<a href="javascript:void(0);">
+<img src="http://www.cadal.zju.edu.cn/CalliSources/images/ico/06100037/00000035.jpg" id="49_4"></img>
+</a>
+
+                    </div>
+                    <div class="split_fit"></div>
+                    <div class="tag">
+                        <label>作品全文：</label>
+                        <div id="work_text">
+                            
+                        </div>
+                    </div>
+                    <div class="split_fit"></div>
+                </div>
+            </div>
+            <div id="footer">
+                <p id="footsay">calligraphy@cadal</p>
+            </div>
+        </div>
+    </body>
+</html>

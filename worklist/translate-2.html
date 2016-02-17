@@ -1,0 +1,100 @@
+
+
+
+
+
+<!DOCTYPE html>
+<!--用于显示具体的作品！-->
+<html>
+    <head>
+        <link rel="SHORTCUT ICON" href="res/favicon.ico"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link href="style/style.css" rel="stylesheet" type="text/css"></link>
+        <link href="style/forworkdetail.css" rel="stylesheet" type="text/css"></link>
+        <script type="text/javascript" src="script/showContentPage.js" ></script>
+        <title>Cadal-Calligraphy</title>
+    </head>
+    <body>
+        <div id="holder">
+            <div id="header">
+                <img src="res/header.jpg" usemap="#links"></img>
+                <map name="links">
+                    <area shape="rect" coords="0,0,140,140" href="works.jsp" />
+                    <area shape="rect" coords="900,0,1000,100" href="/" />
+                </map>
+            </div>
+            <div id="menu">
+                <ul>
+                    <li><a href="worklist.jsp"><img src="res/menu_1s.jpg"></img></a></li>
+                    <li><a href="characters.jsp"><img src="res/menu_2.jpg"></img></a></li>
+                    <li><a href="books.jsp"><img src="res/menu_3.jpg"></img></a></li>
+                    <li><a href="synthesis.jsp"><img src="res/menu_4.jpg"></img></a></li>
+                    <li><a href="render.jsp"><img src="res/menu_5.jpg"></img></a></li>
+                    <li><a href="recognize.jsp"><img src="res/menu_6.jpg"></img></a></li>
+                    <li><a href="applist.jsp"><img src="res/menu_7.jpg"></img></a></li>
+                </ul>
+            </div>
+            <div id="shadow">
+            </div>
+            <div id="content">
+                <div id="search">
+                    <form action="worklist.jsp" method="post">
+                        <label>书法作品</label>
+                        <label class="sticker">作品名</label>
+                        <input type="text" name="name"></input>
+                        <label class="sticker">书家</label>
+                        <input type="text" name="calligrapher"></input>
+                        <label class="sticker">关键字</label>
+                        <input type="text" name="keyword"></input>
+                        <label class="sticker">朝代</label>
+                        <input type="text" name="dynasty"></input>
+                        <input class="query" type="submit" value="查询"></input>
+                    </form>
+                </div>
+                <div class="split"></div>
+                <div id="main_content">
+                    
+                    <div class="tag">
+                        <label>书家简介：</label>
+                        <div id="calligrapher_info">
+                            <a href="http://10.15.62.103/bns/person/personbase.html?name=颜真卿">颜真卿</a>,唐                   ,
+                        </div>
+                    </div>
+                    <div class="split_fit"></div>
+                    <div id="show_work_pic">
+                        <!--用于显示作品的特定页-->
+                        
+                        <img src="http://www.cadal.zju.edu.cn/CalliSources/images/books/06100009/00000081.jpg"></img>
+                        
+                    </div>
+                    <div id="foresee">
+                        <a href="javascript:void(0);">
+<img src="http://www.cadal.zju.edu.cn/CalliSources/images/ico/06100009/00000081.jpg" id="2_1" class="selected"></img>
+</a>
+<a href="javascript:void(0);">
+<img src="http://www.cadal.zju.edu.cn/CalliSources/images/ico/06100009/00000082.jpg" id="2_2"></img>
+</a>
+<a href="javascript:void(0);">
+<img src="http://www.cadal.zju.edu.cn/CalliSources/images/ico/06100009/00000083.jpg" id="2_3"></img>
+</a>
+<a href="javascript:void(0);">
+<img src="http://www.cadal.zju.edu.cn/CalliSources/images/ico/06100009/00000084.jpg" id="2_4"></img>
+</a>
+
+                    </div>
+                    <div class="split_fit"></div>
+                    <div class="tag">
+                        <label>作品全文：</label>
+                        <div id="work_text">
+                            维乾元元年、岁次戊戌、九月庚午朔、三日壬申。第十三（原书“从父”二字圈去）叔，银青光禄（脱“大”字）夫、使持节、蒲州诸军事、蒲州刺史、上轻车都尉、丹杨县、开国侯真卿。以清酌庶羞祭于亡侄赠赞善大夫季明之灵曰。惟尔挺生。夙标幼德。宗庙瑚琏。阶庭兰玉。（下圈去“方凭积善”四字）。每慰人心。方期戬谷。何图逆贼闲衅。称兵犯顺。尔父竭诚。（原有被涂去二行四字）。常山作郡。余时受命。亦在平原。仁兄爱我。（下圈去一“恐”字）。俾尔传言。尔既归止。爰开土门。土门既开。凶威大蹙。（下圈去“贼臣拥众不救”六字）。贼臣不（原一“拥”字圈去）救。孤城围逼。父（下圈去一“擒”字）陷子死。巢倾卵覆。天不悔祸。谁为荼毒。念尔遘残。百身何赎。呜乎哀哉。吾承天泽。移牧河关。（下圈去“河东近”三字）。泉明（原书“东之”二字圈去）比者。再陷常山。（下圈去一字）。携尔首榇。及兹同还。（下圈去“亦自常山”四字）。抚念摧切。震悼心颜。方俟远日。（下及边圈去五字）。卜尔幽宅。（下圈去一字）魂而有知。无嗟久客。呜呼哀哉。尚飨。
+                        </div>
+                    </div>
+                    <div class="split_fit"></div>
+                </div>
+            </div>
+            <div id="footer">
+                <p id="footsay">calligraphy@cadal</p>
+            </div>
+        </div>
+    </body>
+</html>
