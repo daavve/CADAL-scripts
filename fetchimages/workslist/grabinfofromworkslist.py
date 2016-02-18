@@ -9,7 +9,7 @@
 from bs4 import BeautifulSoup as BS
 import socket
 from subprocess import run
-import os
+import sys, json
 from pathlib import Path
 
 if socket.gethostname() == "bigArch":
@@ -29,9 +29,9 @@ class Author(object):
 
 
 class Page(object):
-    def __init__(self, book_id: str, page_file: str):
+    def __init__(self, book_id: str, page_files: [str]):
         self.book_id = book_id
-        self.page_id = page_file
+        self.pages_id = page_files
 
 
 class Collection(object):
@@ -49,9 +49,9 @@ def parsehtml(inhtml: str, id_number: int) -> None:
     soup8 = str(soupi[8]).split('/')
     bookid = soup8[6]
     pages = []
-    pages.append(soup8[7])
+    pages.append(soup8[7].strip('\"'))
     for i in range(10, len(soupi)):
-        pages.append(str(soupi[i]).split('/')[7])
+        pages.append(str(soupi[i]).split('/')[7].strip('\"'))
     soupgrab = str(soup.find(id="work_text")).split('\n')
     textblock = ""
     for i in range(1, len(soupgrab) - 1):   #Start and end are HTML
@@ -74,6 +74,14 @@ def parsehtml(inhtml: str, id_number: int) -> None:
     myauthor.works.append(Collection(id_number, textblock, Page(bookid, pages)))
 
 
+def jdefault(o):
+    return o.__dict__
+
+def dumptojson() -> None:
+    dumpfile = open('dump2.json', mode='w')
+    json.dump(authors, dumpfile, ensure_ascii=False, indent=4, sort_keys=True, default=jdefault)
+    dumpfile.close()
+
 
 basepath = Path(BASE_NAME)
 files = basepath.glob('workdetail.jsp?contentid=*')
@@ -84,4 +92,19 @@ for file in files:
     parsehtml(inred, id_number)
     infile.close()
 
-x=1
+dumptojson()
+
+
+WEBSITE = "http://www.cadal.zju.edu.cn/CalliSources/books/"
+
+author_num = 0
+for author in authors:
+    author_num += 1
+    for work in author.works:
+        workid = work.work_id
+        pages = work.pages
+        bookid = pages.book_id
+        for page in pages.pages_id:
+            webstring = WEBSITE + bookid + '/' + page
+            print(webstring)
+
