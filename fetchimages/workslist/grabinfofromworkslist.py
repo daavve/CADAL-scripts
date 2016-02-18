@@ -116,6 +116,8 @@ readfromjson()
 WEBSITE = "http://www.cadal.zju.edu.cn/CalliSources/books/"
 WEBBACKUP = "http://www.cadal.zju.edu.cn/CalliSources/images/books/"
 
+failedwork = []
+
 author_num = 0
 for author in authors:
     author_num += 1
@@ -124,11 +126,18 @@ for author in authors:
         pages = work.pages
         bookid = pages.book_id
         for page in pages.pages_id:
-            webstring = WEBSITE + bookid + '/' + page
+            webstring = WEBSITE + bookid + '/otiff/' + page
             webback = WEBBACKUP + bookid + '/' + page
             outfilestring = IMAGE_DIR + bookid + '-' + page
             try:
                 check_output(['wget', webstring, '-O', outfilestring])   #If higher res location is unavailable
             except CalledProcessError:
-                check_output(['wget', webback, '-O', outfilestring])
+                try:
+                    check_output(['wget', webback, '-O', outfilestring])
+                except CalledProcessError:
+                    failedwork.append(workid + ":" + bookid + ":" + page)
+print("-------FAILED------------")
+for faild in failedwork:
+    print(faild)
+
 
