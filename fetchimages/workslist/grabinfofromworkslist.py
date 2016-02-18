@@ -90,7 +90,7 @@ def parsehtml() -> None:
     files = basepath.glob('workdetail.jsp?contentid=*')
     for file in files:
         id_number = int(str(file).split('=')[1])
-        infile = file.open(mode='r')
+        infile = file.open(mode='r', format='utf-8')
         inred = infile.read()
         parsehtml(inred, id_number)
         infile.close()
