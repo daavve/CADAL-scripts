@@ -96,7 +96,7 @@ def parsehtml() -> None:
         infile.close()
 
 def readfromjson() -> None:
-    jsonfile = open("dump2.json", mode="r")
+    jsonfile = open("dump2.json", mode="r", format='utf-8')
     readfile = json.load(jsonfile)
     jsonfile.close()
     for r in readfile:
