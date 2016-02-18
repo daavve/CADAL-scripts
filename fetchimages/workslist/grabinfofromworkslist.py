@@ -82,18 +82,33 @@ def dumptojson() -> None:
     json.dump(authors, dumpfile, ensure_ascii=False, indent=4, sort_keys=True, default=jdefault)
     dumpfile.close()
 
+def parsehtml() -> None:
+    basepath = Path(BASE_NAME)
+    files = basepath.glob('workdetail.jsp?contentid=*')
+    for file in files:
+        id_number = int(str(file).split('=')[1])
+        infile = file.open(mode='r')
+        inred = infile.read()
+        parsehtml(inred, id_number)
+        infile.close()
 
-basepath = Path(BASE_NAME)
-files = basepath.glob('workdetail.jsp?contentid=*')
-for file in files:
-    id_number = int(str(file).split('=')[1])
-    infile = file.open(mode='r')
-    inred = infile.read()
-    parsehtml(inred, id_number)
-    infile.close()
+def readfromjson() -> None:
+    jsonfile = open("dump2.json", mode="r")
+    readfile = json.load(jsonfile)
+    jsonfile.close()
+    for r in readfile:
+        x=1
+        author1 = Author(r['name'], r['dynesty'])
+        for w in r['works']:
+            author1.works.append(Collection(w['work_id'],
+                                            w['text_block'],
+                                            Page(w['pages']['book_id'],
+                                                 w['pages']['pages_id'])))
+        authors.append(author1)
 
-dumptojson()
-
+#parsehtml()
+#dumptojson()
+readfromjson()
 
 WEBSITE = "http://www.cadal.zju.edu.cn/CalliSources/books/"
 
