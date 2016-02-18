@@ -7,22 +7,51 @@
 #####################################################################################
 
 from bs4 import BeautifulSoup as BS
+import socket
+from subprocess import run
+import os
+from pathlib import Path
 
-BASE_NAME = "workdetail.jsp?contentid="
-BADNUM = [26, 59, 67] #  For some reason these numbers are no good
+if socket.gethostname() == "bigArch":
+    BASE_NAME = "/home/dave/workspace/pycharm/fetch/workslist/"
+else:
+    BASE_NAME = "/home/django/CADAL-scripts/fetchimages/workslist/"
+
+
 WHITESPACE = " 　\u3000"
 
 
-def parsehtml(inhtml: str) -> None:
+class Author(object):
+    def __init__(self, name: str, dynesty: str):
+        self.name = name
+        self.dynesty = dynesty
+        self.works = []
+
+
+class Page(object):
+    def __init__(self, book_id: str, page_file: str):
+        self.book_id = book_id
+        self.page_id = page_file
+
+
+class Collection(object):
+    def __init__(self, work_id: int, text_block: str, pages: Page):
+        self.work_id = work_id
+        self.pages = pages
+        self.text_block = text_block
+
+authors = []
+
+
+def parsehtml(inhtml: str, id_number: int) -> None:
     soup = BS(inhtml, "html5lib")
-    print(soup.prettify())
     soupi = soup.find_all('img')
     soup8 = str(soupi[8]).split('/')
     bookid = soup8[6]
-    filenames = []
-    filenames.append(soup8[7])
+    pages = []
+    pages.append(soup8[7])
     for i in range(10, len(soupi)):
-        filenames.append(str(soupi[i]).split('/')[7])
+        pages.append(str(soupi[i]).split('/')[7])
     soupgrab = str(soup.find(id="work_text")).split('\n')
     textblock = ""
     for i in range(1, len(soupgrab) - 1):   #Start and end are HTML
@@ -30,14 +59,29 @@ def parsehtml(inhtml: str) -> None:
     soup_info = soup.find_all(id="calligrapher_info")
     strstr = str(soup_info).split("name=")[1]
     calligrapher = strstr.split("\"")[0]
-    dynesty = strstr.split("</a>,")[1]
+    dynesty = strstr.split(',')[1].strip(WHITESPACE)
+
+    newauthor = True
+    for author in authors:
+        if author.name == calligrapher:
+            newauthor = False
+            myauthor = author
+
+    if(newauthor):
+        myauthor = Author(calligrapher, dynesty)
+        authors.append(myauthor)
+
+    myauthor.works.append(Collection(id_number, textblock, Page(bookid, pages)))
 
 
 
-for i in range(1, 81):
-    if i not in BADNUM:
-        infile = open(BASE_NAME + str(i), mode="r")
-        inred = infile.read()
-        parsehtml(inred)
-        infile.close()
+basepath = Path(BASE_NAME)
+files = basepath.glob('workdetail.jsp?contentid=*')
+for file in files:
+    id_number = int(str(file).split('=')[1])
+    infile = file.open(mode='r')
+    inred = infile.read()
+    parsehtml(inred, id_number)
+    infile.close()
 
+x=1
