@@ -90,13 +90,13 @@ def parsehtml() -> None:
     files = basepath.glob('workdetail.jsp?contentid=*')
     for file in files:
         id_number = int(str(file).split('=')[1])
-        infile = file.open(mode='r', format='utf-8')
+        infile = file.open(mode='r', encoding='utf-8')
         inred = infile.read()
         parsehtml(inred, id_number)
         infile.close()
 
 def readfromjson() -> None:
-    jsonfile = open("dump2.json", mode="r", format='utf-8')
+    jsonfile = open("dump2.json", mode="r", encoding='utf-8')
     readfile = json.load(jsonfile)
     jsonfile.close()
     for r in readfile:
