@@ -126,16 +126,20 @@ for author in authors:
         pages = work.pages
         bookid = pages.book_id
         for page in pages.pages_id:
-            webstring = WEBSITE + bookid + '/otiff/' + page
+            webstringjpeg = WEBSITE + bookid + '/otiff/' + page
+            webstringtiff = webstringjpeg[:len(webstringjpeg) - 3] + "tif"
             webback = WEBBACKUP + bookid + '/' + page
             outfilestring = IMAGE_DIR + bookid + '-' + page
             try:
-                check_output(['wget', webstring, '-O', outfilestring])   #If higher res location is unavailable
+                check_output(['wget', webstringtiff, '-O', outfilestring])
             except CalledProcessError:
                 try:
-                    check_output(['wget', webback, '-O', outfilestring])
+                    check_output(['wget', webstringjpeg, '-O', outfilestring])
                 except CalledProcessError:
-                    failedwork.append(workid + ":" + bookid + ":" + page)
+                    try:
+                        check_output(['wget', webback, '-O', outfilestring])
+                    except CalledProcessError:
+                        failedwork.append(workid + ":" + bookid + ":" + page)
 print("-------FAILED------------")
 for faild in failedwork:
     print(faild)
