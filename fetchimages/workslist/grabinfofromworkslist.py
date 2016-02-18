@@ -8,14 +8,17 @@
 
 from bs4 import BeautifulSoup as BS
 import socket
-from subprocess import run
+from subprocess import check_output
+from subprocess import CalledProcessError
 import sys, json
 from pathlib import Path
 
 if socket.gethostname() == "bigArch":
     BASE_NAME = "/home/dave/workspace/pycharm/fetch/workslist/"
+    IMAGE_DIR = "/home/dave/workspace/pycharm/fetch/bookjpeg/"
 else:
     BASE_NAME = "/home/django/CADAL-scripts/fetchimages/workslist/"
+    IMAGE_DIR = "/home/django/CADAL-scripts/fetchimages/grabbedBooks/"
 
 
 WHITESPACE = " 　\u3000"
@@ -111,6 +114,7 @@ def readfromjson() -> None:
 readfromjson()
 
 WEBSITE = "http://www.cadal.zju.edu.cn/CalliSources/books/"
+WEBBACKUP = "http://www.cadal.zju.edu.cn/CalliSources/images/books/"
 
 author_num = 0
 for author in authors:
@@ -121,5 +125,10 @@ for author in authors:
         bookid = pages.book_id
         for page in pages.pages_id:
             webstring = WEBSITE + bookid + '/' + page
-            print(webstring)
+            webback = WEBBACKUP + bookid + '/' + page
+            outfilestring = IMAGE_DIR + bookid + '-' + page
+            try:
+                check_output(['wget', webstring, '-O', outfilestring])   #If higher res location is unavailable
+            except CalledProcessError:
+                check_output(['wget', webback, '-O', outfilestring])
 
