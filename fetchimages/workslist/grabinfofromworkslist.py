@@ -18,7 +18,7 @@ if socket.gethostname() == "bigArch":
     IMAGE_DIR = "/home/dave/workspace/pycharm/fetch/bookjpeg/"
 else:
     BASE_NAME = "/home/django/CADAL-scripts/fetchimages/workslist/"
-    IMAGE_DIR = "/home/django/CADAL-scripts/fetchimages/grabbedBooks/"
+    IMAGE_DIR = "/home/django/CADAL-scripts/fetchimages/workslist/grabbedBooks/"
 
 
 WHITESPACE = " 　\u3000"
