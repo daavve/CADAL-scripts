@@ -6,7 +6,7 @@
 
 
 CHARS_DIR="/home/django/CADAL-scripts/fetchimages/chars"
-BOOK_DIR="/home/django/CADAL-scripts/fetchimages/workslist/grabbedBooks"
+BOOK_DIR="/home/django/CADAL-scripts/fetchimages/workslist/grabbedBooks/"
 WEBSITE="http://www.cadal.zju.edu.cn/CalliSources/books/"
 WEBBACKUP="http://www.cadal.zju.edu.cn/CalliSources/images/books/"
 
