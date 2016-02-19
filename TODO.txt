@@ -1,0 +1,2 @@
+2:  When server finished renaming files:  ls *.tif a list of names, use the names to preform a local conversion.
+1:  Transfer fetched book images to BigArch
