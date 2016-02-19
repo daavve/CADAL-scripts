@@ -5,8 +5,8 @@
 ############################
 
 
-CHARS_DIR="/home/dave/workspace/pycharm/fetch/chars/"
-BOOK_DIR="/home/dave/workspace/pycharm/fetch/grabbedBooks/grabbedBooks/"
+CHARS_DIR="/home/django/CADAL-scripts/fetchimages/chars"
+BOOK_DIR="/home/django/CADAL-scripts/fetchimages/workslist/grabbedBooks"
 WEBSITE="http://www.cadal.zju.edu.cn/CalliSources/books/"
 WEBBACKUP="http://www.cadal.zju.edu.cn/CalliSources/images/books/"
 
@@ -19,14 +19,14 @@ for dir in $(ls -d */); do
         localfilejpg=$localfile".jpg"
         localfiletif=$localfile".tif"
         if [[ -e $localfilejpg || -e $localfiletif ]]; then
-            echo "Have: "$localfile
+            x=1
         else
             webbook=$WEBSITE$dir"otiff"$fileid
             webbooktif=$webbook".tif"
             webbookjpg=$webbook".jpg"
-            wget $webbooktif -O $localfiletif
+            wget $webbooktif -O $localfiletif &> /dev/null
             if [[ $? != 0 ]]; then
-                wget $webbookjpg -O $localfilejpg
+                wget $webbookjpg -O $localfilejpg &> /dev/null
             fi
         fi
     done
