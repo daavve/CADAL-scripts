@@ -8,9 +8,7 @@ cd "/home/django/CADAL-scripts/fetchimages/workslist/grabbedBooks"
 
 for file in $(ls *.jpg); do
     iden=$(identify $file)
-    echo $iden
-    if [ ${iden:23:4} == "TIFF" ]; then
-        mv $file ${file:17}".tif"
+    if [ ${iden:22:4} == "TIFF" ]; then
+        mv $file ${file:0:17}".tif"
     fi
-
 done
