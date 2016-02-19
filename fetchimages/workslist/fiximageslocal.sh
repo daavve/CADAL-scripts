@@ -4,13 +4,13 @@
 #
 ###############################################################
 
-BOOK_BASE="/home/dave/workspace/pycharm/CADAL-scripts/fetchimages/workslist/grabbedBooks"
+BOOK_BASE="/home/dave/workspace/pycharm/fetch/grabbedBooks/grabbedBooks/"
 
 booklist=$(cat "/home/dave/workspace/pycharm/CADAL-scripts/fetchimages/workslist/grabbedBooks/tiffbooks.txt")
 
-
-cd $BOOK_BASE
 for book in $booklist; do
     bookjpg=${book:0:17}".jpg"
-    mv $bookjpg $bookjpg
+    fullbookjpg=$BOOK_BASE$bookjpg
+    fullbooktif=$BOOK_BASE$book
+    mv $fullbookjpg $fullbooktif
 done
