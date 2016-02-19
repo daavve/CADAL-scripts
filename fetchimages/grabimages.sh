@@ -26,6 +26,7 @@ for dir in $(ls -d */); do
             webbookjpg=$webbook".jpg"
             wget $webbooktif -O $localfiletif &> /dev/null
             if [[ $? != 0 ]]; then
+                rm $localfiletif
                 wget $webbookjpg -O $localfilejpg &> /dev/null
             fi
         fi
