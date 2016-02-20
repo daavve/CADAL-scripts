@@ -13,13 +13,13 @@ from subprocess import CalledProcessError
 import sys, json, os
 from pathlib import Path
 
-if socket.gethostname() == "bigArch":
-    BASE_NAME = "/home/dave/workspace/pycharm/fetch/workslist/"
-    IMAGE_DIR = "/home/dave/workspace/pycharm/fetch/bookjpeg/"
-else:
+HOSTNAME = socket.gethostname()
+if HOSTNAME == 'ewucal_server' or HOSTNAME == 'calligraphy.ewuthesis.com':
     BASE_NAME = "/home/django/CADAL-scripts/fetchimages/workslist/"
     IMAGE_DIR = "/home/django/CADAL-scripts/fetchimages/workslist/grabbedBooks/"
-
+else:
+    BASE_NAME = "/home/dave/workspace/pycharm/fetch/workslist/"
+    IMAGE_DIR = "/home/dave/workspace/pycharm/fetch/bookjpeg/"
 
 WHITESPACE = " 　\u3000"
 
@@ -132,7 +132,7 @@ for author in authors:
             outfilestringjpg = IMAGE_DIR + bookid + '-' + page
             outfilestringtif = outfilestringjpg[:len(outfilestringjpg) - 3] + "tif"
             if not os.path.isfile(outfilestringjpg) and not os.path.isfile(outfilestringtif):
-                try:
+                try:    # Note: If this fails it leaves an empty .tif file
                     check_output(['wget', webstringtiff, '-O', outfilestringtif])
                 except CalledProcessError:
                     try:
