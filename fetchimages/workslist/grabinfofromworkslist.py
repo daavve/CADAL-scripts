@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup as BS
 import socket
 from subprocess import check_output
 from subprocess import CalledProcessError
-import sys, json
+import sys, json, os
 from pathlib import Path
 
 if socket.gethostname() == "bigArch":
@@ -77,7 +77,7 @@ def parsehtml(inhtml: str, id_number: int) -> None:
     myauthor.works.append(Collection(id_number, textblock, Page(bookid, pages)))
 
 
-def jdefault(o):
+def jdefault(o):    # This part is necessary to get the objects to Auto-Format
     return o.__dict__
 
 def dumptojson() -> None:
@@ -129,17 +129,19 @@ for author in authors:
             webstringjpeg = WEBSITE + bookid + '/otiff/' + page
             webstringtiff = webstringjpeg[:len(webstringjpeg) - 3] + "tif"
             webback = WEBBACKUP + bookid + '/' + page
-            outfilestring = IMAGE_DIR + bookid + '-' + page
-            try:
-                check_output(['wget', webstringtiff, '-O', outfilestring])
-            except CalledProcessError:
+            outfilestringjpg = IMAGE_DIR + bookid + '-' + page
+            outfilestringtif = outfilestringjpg[:len(outfilestringjpg) - 3] + "tif"
+            if not os.path.isfile(outfilestringjpg) and not os.path.isfile(outfilestringtif):
                 try:
-                    check_output(['wget', webstringjpeg, '-O', outfilestring])
+                    check_output(['wget', webstringtiff, '-O', outfilestringtif])
                 except CalledProcessError:
                     try:
-                        check_output(['wget', webback, '-O', outfilestring])
+                        check_output(['wget', webstringjpeg, '-O', outfilestringjpg])
                     except CalledProcessError:
-                        failedwork.append(workid + ":" + bookid + ":" + page)
+                        try:
+                            check_output(['wget', webback, '-O', outfilestringjpg])
+                        except CalledProcessError:
+                            failedwork.append(workid + ":" + bookid + ":" + page)
 print("-------FAILED------------")
 for faild in failedwork:
     print(faild)
