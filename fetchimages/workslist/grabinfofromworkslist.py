@@ -23,6 +23,8 @@ else:
 
 if HOSTNAME == 'ewucal_server':
     FETCH_ODD = True
+else:
+    FETCH_ODD = False
 
 WHITESPACE = " 　\u3000"
 
