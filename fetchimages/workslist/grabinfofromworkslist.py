@@ -21,6 +21,9 @@ else:
     BASE_NAME = "/home/dave/workspace/pycharm/fetch/workslist/"
     IMAGE_DIR = "/home/dave/workspace/pycharm/fetch/bookjpeg/"
 
+if HOSTNAME == 'ewucal_server':
+    FETCH_ODD = True
+
 WHITESPACE = " 　\u3000"
 
 
@@ -117,33 +120,31 @@ WEBSITE = "http://www.cadal.zju.edu.cn/CalliSources/books/"
 WEBBACKUP = "http://www.cadal.zju.edu.cn/CalliSources/images/books/"
 
 failedwork = []
+odd = False
 
 author_num = 0
 for author in authors:
     author_num += 1
     for work in author.works:
-        workid = work.work_id
-        pages = work.pages
-        bookid = pages.book_id
-        for page in pages.pages_id:
-            webstringjpeg = WEBSITE + bookid + '/otiff/' + page
-            webstringtiff = webstringjpeg[:len(webstringjpeg) - 3] + "tif"
-            webback = WEBBACKUP + bookid + '/' + page
-            outfilestringjpg = IMAGE_DIR + bookid + '-' + page
-            outfilestringtif = outfilestringjpg[:len(outfilestringjpg) - 3] + "tif"
-            if not os.path.isfile(outfilestringjpg) and not os.path.isfile(outfilestringtif):
-                try:    # Note: If this fails it leaves an empty .tif file
-                    check_output(['wget', webstringtiff, '-O', outfilestringtif])
-                except CalledProcessError:
-                    try:
-                        check_output(['wget', webstringjpeg, '-O', outfilestringjpg])
+        odd = not odd
+        if odd == FETCH_ODD:
+            workid = work.work_id
+            pages = work.pages
+            bookid = pages.book_id
+            for page in pages.pages_id:
+                webstringjpeg = WEBSITE + bookid + '/otiff/' + page
+                webstringtiff = webstringjpeg[:len(webstringjpeg) - 3] + "tif"
+                webback = WEBBACKUP + bookid + '/' + page
+                outfilestringjpg = IMAGE_DIR + bookid + '-' + page
+                outfilestringtif = outfilestringjpg[:len(outfilestringjpg) - 3] + "tif"
+                if not os.path.isfile(outfilestringjpg) and not os.path.isfile(outfilestringtif):
+                    try:    # Note: If this fails it leaves an empty .tif file
+                        check_output(['wget', webstringtiff, '-O', outfilestringtif])
                     except CalledProcessError:
                         try:
-                            check_output(['wget', webback, '-O', outfilestringjpg])
+                            check_output(['wget', webstringjpeg, '-O', outfilestringjpg])
                         except CalledProcessError:
-                            failedwork.append(workid + ":" + bookid + ":" + page)
-print("-------FAILED------------")
-for faild in failedwork:
-    print(faild)
-
-
+                            try:
+                                check_output(['wget', webback, '-O', outfilestringjpg])
+                            except CalledProcessError:
+                                failedwork.append(workid + ":" + bookid + ":" + page)
