@@ -13,8 +13,8 @@ for pngfile in $pnglist; do
     tifSize=$(stat -c %s $tiffile)
     pngSize=$(stat -c %s $pngfile)
     if [[ $tifSize > $pngSize ]]; then
-        rm -f $tifFile
+        rm -f $tiffile
     else
-        rm -f $pngFile
+        rm -f $pngfile
     fi
 done
