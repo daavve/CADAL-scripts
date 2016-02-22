@@ -12,11 +12,9 @@ for pngfile in $pnglist; do
     tiffile=${pngfile:0:$lenT}".tif"
     tifSize=$(stat -c %s $tiffile)
     pngSize=$(stat -c %s $pngfile)
-    echo $pngfile":"$tiffile
-
-#    if [[ $tifSize > $pngSize ]]; then
-#        rm -f $tifFile
-#    else
-#        rm -f $pngFile
-#    fi
+    if [[ $tifSize > $pngSize ]]; then
+        rm -f $tifFile
+    else
+        rm -f $pngFile
+    fi
 done
