@@ -17,9 +17,10 @@ else:
 END_STRING = "\n                                "
 
 class Workinfo(object):
-    def __init__(self, wkid: str, wktitle: str):
+    def __init__(self, wkid: str, wktitle: str, wkauthor: str):
         self.wkid = wkid
         self.wktitle = wktitle
+        self.wkauthor = wkauthor
 
 wrks = []
 
@@ -27,8 +28,11 @@ wrks = []
 def extractinfo(info: Tag) -> None:
     if info is not None:
         workid = str(info['href']).split('=')[1]
-        worktitle = str(info.p).strip('<p>/')
-        wrks.append(Workinfo(workid, worktitle))
+        ps = info.find_all('p')
+        worktitle = str(ps[0]).strip('<p>/')
+        workauthor = str(ps[1]).strip('<p>/')
+        wrks.append(Workinfo(workid, worktitle, workauthor))
+
 
 
 def parsefile(inhtml: str) -> None:
