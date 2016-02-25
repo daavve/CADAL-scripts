@@ -5,6 +5,7 @@
 
 import os
 import socket
+import json
 from bs4 import BeautifulSoup as BS
 from bs4.element import Tag
 
@@ -15,9 +16,19 @@ else:
 
 END_STRING = "\n                                "
 
+class Workinfo(object):
+    def __init__(self, wkid: str, wktitle: str):
+        self.wkid = wkid
+        self.wktitle = wktitle
+
+wrks = []
+
 
 def extractinfo(info: Tag) -> None:
-    x=1
+    if info is not None:
+        workid = str(info['href']).split('=')[1]
+        worktitle = str(info.p).strip('<p>/')
+        wrks.append(Workinfo(workid, worktitle))
 
 
 def parsefile(inhtml: str) -> None:
@@ -25,7 +36,7 @@ def parsefile(inhtml: str) -> None:
     seg = soup.tr
     while str(seg) != END_STRING:
         for desc in seg.children:
-            extractinfo(desc)
+            extractinfo(desc.a)
         seg = seg.next_sibling
         x=1
     x=1
@@ -44,9 +55,20 @@ def find_html_files(inFolder: str) -> [str]:
     return file_list
 
 
+def jdefault(o):    # This part is necessary to get the objects to Auto-Format
+    return o.__dict__
+
+def dumptojson() -> None:
+    dumpfile = open('wrk-titles.json', mode='w')
+    json.dump(wrks, dumpfile, ensure_ascii=False, indent=4, sort_keys=True, default=jdefault)
+    dumpfile.close()
+
+
+
 htmlfiles = find_html_files(SKIMM_FOLDER)
 for htmlfile in htmlfiles:
     file = open(htmlfile, mode='r', encoding='utf-8')
     filehtml = file.read()
     file.close()
     parsefile(filehtml)
+dumptojson()
