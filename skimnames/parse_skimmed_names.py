@@ -12,11 +12,16 @@ if socket.gethostname() == 'bigArch':
 else:
     SKIMM_FOLDER = "/media/skimmedWorklist"
 
+END_STRING = "\n                                "
+
 def parsefile(inhtml: str) -> None:
     soup = BS(inhtml, "html5lib")
-#    print(soup.prettify())
-    sp = soup.find('table')
-    print(sp.prettify())
+    seg = soup.tr
+    while str(seg) != END_STRING:
+        for desc in seg.children:
+            print(desc)
+        seg = seg.next_sibling
+        x=1
     x=1
 
 
