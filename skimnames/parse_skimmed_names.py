@@ -6,6 +6,7 @@
 import os
 import socket
 from bs4 import BeautifulSoup as BS
+from bs4.element import Tag
 
 if socket.gethostname() == 'bigArch':
     SKIMM_FOLDER = "/home/dave/workspace/pycharm/fetch/skimmedWorklist/"
@@ -14,12 +15,17 @@ else:
 
 END_STRING = "\n                                "
 
+
+def extractinfo(info: Tag) -> None:
+    x=1
+
+
 def parsefile(inhtml: str) -> None:
     soup = BS(inhtml, "html5lib")
     seg = soup.tr
     while str(seg) != END_STRING:
         for desc in seg.children:
-            print(desc)
+            extractinfo(desc)
         seg = seg.next_sibling
         x=1
     x=1
