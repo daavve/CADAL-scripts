@@ -3,13 +3,21 @@
 #
 #####################################################################
 
-import socket, os
+import os
+import socket
+from bs4 import BeautifulSoup as BS
 
 if socket.gethostname() == 'bigArch':
     SKIMM_FOLDER = "/home/dave/workspace/pycharm/fetch/skimmedWorklist/"
 else:
     SKIMM_FOLDER = "/media/skimmedWorklist"
 
+def parsefile(inhtml: str) -> None:
+    soup = BS(inhtml, "html5lib")
+#    print(soup.prettify())
+    sp = soup.find('table')
+    print(sp.prettify())
+    x=1
 
 
 
@@ -26,4 +34,8 @@ def find_html_files(inFolder: str) -> [str]:
 
 
 htmlfiles = find_html_files(SKIMM_FOLDER)
-x=1
+for htmlfile in htmlfiles:
+    file = open(htmlfile, mode='r', encoding='utf-8')
+    filehtml = file.read()
+    file.close()
+    parsefile(filehtml)
