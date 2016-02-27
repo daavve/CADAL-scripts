@@ -14,7 +14,7 @@ else:
 
 
 class Work(object):
-    def __init__(self, wkid, int, title: str, author: str):
+    def __init__(self, wkid: int, title: str, author: str):
         self.wkid = wkid
         self.title = title
         self.author = author
@@ -38,9 +38,16 @@ def dumptojson() -> None:
     dumpfile.close()
 
 # 3109 is next available primary key in works
-wk = Work(wkid=4109, title="集字聖教序, 三島", author="王羲之")
+wk = Work(wkid=int(4109), title="集字聖教序, 三島", author="王羲之")
 
 file = open("tesseract_convert.txt", mode="r", encoding="utf-8")
 redfile = file.read()
 file.close()
 
+textbody = redfile.split('##########################################\n\n')[1]
+textbody = textbody.split('\n\n\nSTOP!')[0]
+textlist = textbody.split('\n\n-----------------------\n')
+for text in textlist:
+    firstpart = text.split('\n')[0]
+    secondpart = text.split('.png\n')[1]
+    x=1
