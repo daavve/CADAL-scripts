@@ -6,11 +6,12 @@
 
 import socket
 import json
+import os
 
 if socket.gethostname() == 'bigArch':
-    CHARS_DIR = "/home/dave/workspace/pycharm/fetch/scanned/1/"
+    SCANNED_DIR = "/home/dave/workspace/pycharm/fetch/scanned/1/"
 else:
-    CHARS_DIR = "/media/scanned/1/"
+    SCANNED_DIR = "/media/scanned/1/"
 
 
 class Work(object):
@@ -22,9 +23,9 @@ class Work(object):
 
 
 class Page(object):
-    def __init__(self, filepath: str, tanscript: str):
+    def __init__(self, filepath: str, transcript: str):
         self.filepath = filepath
-        self.transcript = tanscript
+        self.transcript = transcript
 
 
 
@@ -33,7 +34,7 @@ def jdefault(o):    # This part is necessary to get the objects to Auto-Format
 
 
 def dumptojson() -> None:
-    dumpfile = open('dump2.json', mode='w')
+    dumpfile = open('scannedwork1.json', mode='w')
     json.dump(wk, dumpfile, ensure_ascii=False, indent=4, sort_keys=True, default=jdefault)
     dumpfile.close()
 
@@ -48,6 +49,9 @@ textbody = redfile.split('##########################################\n\n')[1]
 textbody = textbody.split('\n\n\nSTOP!')[0]
 textlist = textbody.split('\n\n-----------------------\n')
 for text in textlist:
-    firstpart = text.split('\n')[0]
-    secondpart = text.split('.png\n')[1]
-    x=1
+    filepath = SCANNED_DIR + text.split('\n')[0]
+    if not os.path.isfile(filepath):
+        Exception("File not found", filepath)
+    filetext = text.split('.png\n')[1]
+    wk.pages.append(Page(filepath=filepath, transcript=filetext))
+dumptojson()
